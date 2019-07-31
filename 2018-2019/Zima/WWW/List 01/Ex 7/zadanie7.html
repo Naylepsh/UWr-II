@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<!-- Na podstawie 02-newmarkup -->
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    * { font-family: Arial, sans-serif; font-size: 10pt; }
+    input { display: block; margin-bottom:15px; }
+    </style>
+</head>
+<body>
+<form>
+    <label for="nr_konta">Nr Konta</label>
+    <input type="number" id="nr_konta" name="Nr Konta" pattern="[0-9]{26}" />
+
+    <label for="godnosc">Godność:</label>
+    <input type="text" id="godnosc" name="godnosc" placeholder="Imię i nazwisko" />
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" placeholder="example@mail.com" />
+
+    <label for="adres">Adres:</label>
+    <input type="text" id="adres" name="adres" />
+
+    <label for="kod">Kod Pocztowy:</label>
+    <input type="text" id="kod" name="kod" placeholder="AB-CDE", pattern="[0-9]{2}-[0-9]{3}"/>
+
+    <label for="miasto">Miasto:</label>
+    <input type="text" id="miasto" name="miasto" />
+
+    <label for="kwota">Kwota przelewu:</label>
+    <input type="number" id="kwota" name="kwota" min="0" />
+
+    <label for="data">Data przelewu:</label>
+    <input type="date" id="data" name="date" />
+</form>
+</body>
+</html>

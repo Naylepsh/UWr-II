@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="ex2.css">
+</head>
+<body>
+<form id="form" novalidate>
+    <label for="acc_num">Nr Konta</label>
+    <input type="text" id="acc_num" name="Nr Konta"/>
+    <div class="acc_num_error"></div>
+
+    <label for="pesel">Pesel</label>
+    <input type="text" id="pesel" name="Pesel"/>
+    <div class="pesel_error"></div>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email"/>
+    <div class="email_error"></div>
+
+    <label for="date">Data urodzin:</label>
+    <input type="date" id="date" name="date" />
+    <div class="date_error"></div>
+    <button>Submit</button>
+</form>
+<script src="ex2.js"></script>
+</body>
+</html>

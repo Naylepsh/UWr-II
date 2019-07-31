@@ -1,0 +1,72 @@
+zad. 1
+                         100
+        +10/              |-20             \:2
+         110              80               50
+     -20/  \:2        +10/   \:2       +10|   \-20
+      90    55         90    40          60   30
+   :2 |     |-20     :2|   +10|        -20| +10|
+     45    35          45    50          40   40
+
+
+zad. 2
+set! x(* x x) <- 100
+set! x(* x x x) <- 1000
+                <- 1 000 000
+po synchronizacji wyjdzie milion(bo przebieg sekwencyjny -- albo najpierw
+^2 potem ^3 albo na odwrot)
+
+zad. 3
+odczyt
+       <- odczyt (moze sie zdarzyc)
+zapis
+
+zeby bylo sekwencyjnie, ta strzalke nalezy przeniesc przed odczyt
+
+zad. 4
+dla exchange z wykladu:
+         80	90	100
+ex(1,2) +10	-10	
+ex(2,3) 	+10	-10
+
+najpierw +10 do 1, potem cale ex(2,3), a potem -10 do 2
+(taki przebieg jest zly)
+(stan jest zly, bo wszystkie 3 konta == 90, a powinna byc
+permutacja 80,90,100)
+Trzeba zsynchronizowac cala metode exchange
+-- sekcja krytyczna: zbior procedur
+-- semafor blokuje dostep do zbioru procedur
+-- w kodzie z wykladu: semafor == protected
+
+
+
+
+teraz dla tego trasnferu:
+transfer acc1 acc2 20
+transfer acc2 acc3 30
+|
+v
+1)acc1 withdraw 20
+2)acc2 deposit 20
+
+3)acc2 withdraw 30
+4)acc3 deposit 30
+
+1,2,3,4 jest ok
+3,4,1,2 jest ok
+3,1,2,4 jest ok
+
+80, 90, 100
+60, 60
+    80, 130
+
+1,3,4,2 jest ok
+1,3,2,4 jest ok
+80 90 100
+60 60
+   80 130
+
+wplacamy i wyplacamy wylacznie stale, a dodawanie(w tym liczb ujemnych)
+ jest laczne i przemienne
+
+zad. 6
+

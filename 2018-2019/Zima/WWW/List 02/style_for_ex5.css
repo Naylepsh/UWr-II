@@ -1,0 +1,16 @@
+p:first-of-type {
+    background: palevioletred;
+}
+p:last-of-type {
+    background: indianred;
+}
+
+div:only-of-type {
+    background: darkgrey;
+}
+p:nth-child(2) {
+    background: red;
+}
+p:nth-last-of-type(2) {
+    background: red;
+}

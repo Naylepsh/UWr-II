@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\naylepsh\.Rider2017.3\system\resharper-host\local\Transient\ReSharperHost\v11\SolutionCaches\_Zad 1.-971178419.00" t="ExcludeRecursive" />
+    <e p="C:\Users\naylepsh\Documents\Code\PO\List 02\Zad 1" t="IncludeFlat">
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Zad 1" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Main.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Streams.cs" t="Include" />
+        <e p="Zad 1.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Zad 1.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

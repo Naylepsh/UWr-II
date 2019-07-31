@@ -1,0 +1,29 @@
+h1:first-of-type {
+    background: darkolivegreen;
+}
+h3 {
+    background-color: coral;
+}
+span {
+    background-color: white;
+}
+div > span {
+    /*child*/
+    background-color: DodgerBlue;
+}
+div p {
+    /*descendant*/
+    background-color: aquamarine;
+}
+div + h1 {
+    /*adjacement*/
+    background-color: burlywood;
+}
+.intro {
+    /*class*/
+    background-color: indianred;
+}
+#outro {
+    /*id*/
+    background-color: indigo;
+}

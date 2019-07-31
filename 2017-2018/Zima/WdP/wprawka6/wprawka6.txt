@@ -1,0 +1,7 @@
+Wprawka noworoczna (bardzo łatwa)
+
+    (0.4 p) Złożeniem funkcji f i g nazywamy funkcję zdefiniowaną jako x ↦ f(g(x)). Zdefiniuj funkcję compose(f, g) implementującą złożenie funkcji.
+    (0.4 p) n-krotnym złożeniem funkcji f nazywamy funkcję, której wartością (dla danego argumentu) jest wynik n-krotnego zastosowania funkcji f: x ↦ f(f(…(f(x))…)). Przykładowo, jeśli f jest funkcją x ↦ x + 1, to n-krotne złożenie f jest funkcją x ↦ x + n. Zdefiniuj funkcję repeated(f, n), której argumentami są funkcja f i liczba całkowita n, a wynikiem jest funkcja obliczająca n-krotne złożenie f. Użyj w tym celu funkcji compose.
+    (0.2 p) Pamiętaj o konwencjach stylistycznych Pythona: nazwach zmiennych i funkcji pomocniczych, wcięciach, długości linii itp.
+
+Zadanie za Strukturą i interpretacją programów komputerowych Abelsona i Sussmanów.

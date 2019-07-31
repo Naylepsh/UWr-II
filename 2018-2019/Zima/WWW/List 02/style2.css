@@ -1,0 +1,2 @@
+p { color: aqua; } /*jesli byloby !important to ten kolor bylby wazniejszy niz ten ktory ten plik pobiera*/
+div { color: red !important; }

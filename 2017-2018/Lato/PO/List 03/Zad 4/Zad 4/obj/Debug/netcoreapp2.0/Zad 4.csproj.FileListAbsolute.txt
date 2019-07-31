@@ -1,0 +1,10 @@
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\bin\Debug\netcoreapp2.0\Zad 4.deps.json
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\bin\Debug\netcoreapp2.0\Zad 4.runtimeconfig.json
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\bin\Debug\netcoreapp2.0\Zad 4.runtimeconfig.dev.json
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\bin\Debug\netcoreapp2.0\Zad 4.dll
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\bin\Debug\netcoreapp2.0\Zad 4.pdb
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\obj\Debug\netcoreapp2.0\Zad 4.csproj.CoreCompileInputs.cache
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\obj\Debug\netcoreapp2.0\Zad 4.AssemblyInfoInputs.cache
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\obj\Debug\netcoreapp2.0\Zad 4.AssemblyInfo.cs
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\obj\Debug\netcoreapp2.0\Zad 4.dll
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 4\Zad 4\obj\Debug\netcoreapp2.0\Zad 4.pdb

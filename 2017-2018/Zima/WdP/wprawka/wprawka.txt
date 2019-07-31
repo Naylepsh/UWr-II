@@ -1,0 +1,3 @@
+Wielomiany jednej zmiennej możemy reprezentować za pomocą listy współczynników od najwyższej do najniższej potęgi. Przykładowo, [1, 0, -1.5, 2] oznacza wielomian x3 - 1.5x + 2.
+
+Napisz funkcje, które dla danej listy p reprezentującej wielomian i danego punktu x obliczą wartość wielomianu p(x) na dwa sposoby: bezpośrednio, oraz używając schematu Hornera.

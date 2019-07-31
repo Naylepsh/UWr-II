@@ -1,0 +1,84 @@
+div.ex1 {
+    /*centered div*/
+    background-color: moccasin;
+    border: 5px solid green;
+    padding: 5px;
+    width: 70%;
+    margin: 5px auto; /*the thing that centers is auto*/
+}
+
+div.ex2 {
+    background-color: moccasin;
+    border: 5px solid red;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+}
+
+div.block-by-div {
+    background-color: moccasin;
+    border: 5px solid green;
+    padding: 5px;
+    width: 800px;
+    display: block;
+    margin: 5px auto;
+}
+
+div.block-by-text {
+    background-color: moccasin;
+    border: 5px solid red;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    display: block;
+}
+
+/*if one were to remove 'display: inline;' the centering would work*/
+div.inline-by-div {
+    background-color: moccasin;
+    border: 5px solid green;
+    padding: 5px;
+    width: 800px;
+    display: inline;
+    margin: 5px auto;
+}
+
+div.inline-by-text {
+    background-color: moccasin;
+    border: 5px solid red;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    display: inline;
+    width: 1080px;
+}
+
+/*normal centering doesn't work with inline elements*/
+span.inline-by-span {
+    background-color: moccasin;
+    border: 5px solid green;
+    padding: 5px;
+    margin: 5px auto;
+}
+
+span.inline-by-text {
+    text-align: center;
+}
+
+/*other way*/
+div.for-span {
+    text-align: center;
+}
+
+span.inline-by-span2 {
+    background-color: moccasin;
+    border: 5px solid green;
+    padding: 5px;
+    margin: 5px auto;
+    display: inline-block;
+}
+
+span.inline-by-text2 {
+    text-align: center;
+    display: inline-block;
+}

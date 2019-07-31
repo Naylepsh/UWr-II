@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+</head>
+<body>
+<p>Czerwony czy niebieski (czerwony - wzial z style1.css)</p>
+<div>Powinien byc czerwony (nie znalazl w style1, wzial z style2)</div>
+<h2>Domyslny kolor bo niezdefiniowany</h2>
+
+<p style="color: green">Test style= w p (zmieni sie jesli p w x.css bedzie !important)</p>
+<!-- <h2><div> aaaa</div></h2> nie sprawdzimy bo wywala blad -->
+<p><h2> Jeszcze inaczej(kolor z p nie przejdzie w h2)</h2>
+<div> <p style="color: green"> Kolejne testy </p></div>
+<div style="color: purple"> <p> Dziedziczenie działa tak, że najpierw bierze styl z określoneo wcześneij pliku</p></div>
+<div style="color: purple"> <div> A tu podobnie</div></div>
+<div style="color: purple"> Dzieki !important mamy ten kolor ktory opisany byl w pliku</div>
+</body>
+</html>

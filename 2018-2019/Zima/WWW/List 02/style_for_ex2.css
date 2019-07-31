@@ -1,0 +1,36 @@
+a:active {
+    /*thing turns yellow while being clicked/dragged on*/
+    background-color: yellow;}
+input:checked{
+    /*describes the amount of space a checkbox will take (not it's actually size tho)*/
+    height: 100px;
+    width: 100px;
+}
+input:focus {
+    /*Styles an input field when it gets focus*/
+    background-color: yellow;
+}
+a:hover {
+    /*Styles the link when it cursor is placed over it*/
+    background-color: darkslategrey;}
+input:in-range {
+    border: 2px solid red;
+}
+input:out-of-range {
+    border: 2px solid green;
+}
+input:invalid {
+    background-color: red;
+}
+input:valid {
+    background-color: green;
+}
+a:visited {
+    color: pink;
+}
+a:link {
+    background-color: aquamarine;
+}
+:target {
+    background-color: #e5eecc;
+}

@@ -1,0 +1,44 @@
+/*
+inline:
+Displays an element as an inline element (like <span>).
+Any height and width properties will have no effect
+
+block:
+Displays an element as a block element (like <p>).
+It starts on a new line, and takes up the whole width*/
+
+div.ex1 {
+    background-color: moccasin; /*changing bg-color of content and padding*/
+    border: 5px solid green;
+    padding: 5px; /*can't change the color of padding, feelsbadman*/
+    margin: 5px;
+    width: 80px;
+    display: block;
+}
+
+div.ex2 {
+    background-color: lightsalmon; /*changing bg-color of content and padding*/
+    border: 5px solid green;
+    padding: 5px; /*can't change the color of padding, feelsbadman*/
+    margin: 5px;
+    width: 30px;
+    display: inline;
+}
+
+span.ex1 {
+    background-color: moccasin; /*changing bg-color of content and padding*/
+    border: 5px solid red;
+    padding: 5px; /*can't change the color of padding, feelsbadman*/
+    margin: 5px;
+    width: 80px;
+    display: block;
+}
+
+span.ex2 {
+    background-color: lightsalmon; /*changing bg-color of content and padding*/
+    border: 5px solid red;
+    padding: 5px; /*can't change the color of padding, feelsbadman*/
+    margin: 5px;
+    width: 30px;
+    display: inline;
+}

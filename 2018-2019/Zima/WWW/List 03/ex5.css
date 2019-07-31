@@ -1,0 +1,27 @@
+ul.v1 {
+    /*with property*/
+    list-style-image: url("sq.png");
+}
+ul.v2{
+    list-style-type: none;
+}
+
+ul.v2>li::before {
+    /*with ::before pseudoclass*/
+    content: "";
+    display: inline-block;
+    background: url("sq.png");
+    width: 7px;
+    height: 7px;
+    margin: 0 6px 0 0;
+}
+
+ul.v3 {
+    list-style-type: none;
+}
+
+ul.v3>li {
+    background: url("sq.png") left no-repeat;
+    padding: 0 0 0 12px;
+}
+

@@ -1,0 +1,11 @@
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\bin\Debug\Zad 1.exe.config
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\bin\Debug\Zad 1.exe
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\bin\Debug\Zad 1.pdb
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\obj\Debug\Zad 1.csprojResolveAssemblyReference.cache
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\obj\Debug\Zad 1.csproj.CoreCompileInputs.cache
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\obj\Debug\Zad 1.exe
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\obj\Debug\Zad 1.pdb
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\bin\Debug\List.dll
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\bin\Debug\List.pdb
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\bin\Debug\Dictionary.dll
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\Zad 1\bin\Debug\Dictionary.pdb

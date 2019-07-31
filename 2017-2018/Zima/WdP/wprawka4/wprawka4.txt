@@ -1,0 +1,20 @@
+Nieskończonym ułamkiem łańcuchowym (infinite continued fraction) nazywamy wyrażenie postaci:
+
+f = N0 ⁄ (D0 + N1 ⁄ (D1 + …)).
+
+Jednym ze sposobów na przybliżenie nieskończonego ułamka łańcuchowego jest obcięcie jego rozwinięcia na określonej głębokości. Takie obcięcie — nazywane skończonym rozwinięciem ułamka łańcuchowego o głębokości k — jest postaci
+
+fk = N0 ⁄ (D0 + N1 ⁄ (… + Nk ⁄ Dk)).
+
+    Przypuśćmy, że num i den są jednoargumentowymi funkcjami, których wynikiem dla zadanego indeksu i są współczynniki ułamka łańcuchowego, odpowiednio Ni i Di. Zdefiniuj funkcję cont_frac, taką że wynikiem wywołania cont_frac(num, den, k) jest skończone rozwinięcie ułamka łańcuchowego o głębokości k. (0.5p)
+
+    W pracy Leonharda Eulera z 1737 r. można znaleźć rozwinięcie liczby e - 2 (gdzie e jest podstawą logarytmu naturalnego) w ułamek łańcuchowy. W rozwinięciu tym Ni jest równe 1 dla każdego i, zaś Di są kolejno równe 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, …. Przy pomocy funkcji cont_frac przybliż wartość e korzystając z powyższego rozwinięcia. (0.2p)
+
+    W 1770 r. niemiecki matematyk J. H. Lambert opublikował przedstawienie funkcji tangens w postaci ułamka łańcuchowego:
+
+    tg x = x ⁄ (1 - x2 ⁄ (3 - x2 ⁄ (5 - …))),
+
+    gdzie x jest miarą kąta w radianach. Zdefiniuj funkcję tan_cf(x, k) która przybliży wartość funkcji tangens na podstawie tego wzoru, używając jego rozwinięcia o głębokości k. (0.2p)
+    Pamiętaj aby dbać o poprawny styl! (0.1p)
+
+Zadanie za Strukturą i interpretacją programów komputerowych Abelsona i Sussmanów, możliwe że gdzieś jeszcze je zobaczycie.

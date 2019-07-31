@@ -1,0 +1,7 @@
+W tym tygodniu zajmiemy się formułami zdaniowymi, podobnymi do tych z listy 9. Różnica jest taka, że — podobnie jak na logice — będziemy je traktować jako drzewa.
+
+W pliku forms.py znajduje się moduł forms, który dostarcza konstruktorów var(x), neg(f), conj(f1, f2) i disj(f1, f2), których możemy użyć do budowy formuł jako zmiennych (napisów), negacji, koniunkcji i dysjunkcji. Mamy też predykaty sprawdzające czy dana formuła jest koniunkcją, dysjunkcją, negacją bądź zmienną: odpowiednio isConj, isDisj, isNeg oraz isVar, a także selektory (getVar, getNeg, getConjL, getConjR, getDisjL i getDisjR), które pozwalają dostać się do podformuł lub zmiennych: przykładowo, getConjL(conj(f1, f2)) == f1
+
+    Zaimplementuj funkcję fv(f) zwracającą zbiór zmiennych wolnych w formule f.
+    Zaimplementuj funkcję val(f, S), która oblicza wartość formuły f przy wartościowaniu zmiennych danych słownikiem S
+    Użyj funkcji z listy 9 aby sprawdzić czy dana formuła f jest tautologią.

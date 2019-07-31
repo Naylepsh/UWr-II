@@ -1,0 +1,12 @@
+p {
+    font-size: 12pt;
+    line-height: 12pt }
+p:first-letter {
+    font-size: 200%;
+    font-style:italic;
+    font-weight:bold;
+    float:left
+}
+SPAN {
+    text-transform:uppercase
+}

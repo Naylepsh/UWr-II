@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="drag_and_drop.css">
+    <script src="jquery-3.1.1.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+    <div class="colorTool">
+        <!--  draggable="true" ondragstart="drag(event)" -->
+        <div class="colorBlack"></div>
+        <div class="colorLightGrey"></div>
+        <div class="colorDarkGrey"></div>
+        <div class="colorBlue"></div>
+        <div class="colorGreen"></div>
+        <div class="colorRed"></div>
+        <div class="colorYellow"></div>
+    </div>
+    <div class="drawing" id="drawing"></div>
+    <!--  ondragover="allowDrop(event)" ondrop="dropColor(event, this)" -->
+</div>
+<script src="drag_and_drop.js"></script>
+</body>
+</html>

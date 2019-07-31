@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+     <title>Wyświetlanie zawartości</title>
+     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+     <meta http-equiv="Content-Language" content="pl">
+     <style type="text/css">
+     div.kwadrat1 { float: none; background-color: #FFFF99; width: 40px; height: 40px; border: 1px solid #FFCC66; }
+     div.kwadrat2 { float: left; background-color: #FFFF99; width: 40px; height: 40px; border: 1px solid #FFCC66; }
+     div.kwadrat3 { float: right; background-color: #FFFF99; width: 40px; height: 40px; border: 1px solid #FFCC66; }
+     div.title { padding-top: 10px; font-family:Arial, Helvetica, sans-serif; font-size:16px; font-weight: bold; }
+     div.mainbox { border: 1px solid black; width: 240px; height: 160px; overflow: hidden; font-family:Arial, Helvetica, sans-serif; font-size:9px; }
+     .div1 {
+         float: left;
+         width: 100px;
+         height: 50px;
+         margin: 10px;
+         border: 3px solid #73AD21;
+     }
+
+     .div2 {
+         border: 1px solid red;
+     }
+
+     .div3 {
+         float: left;
+         width: 100px;
+         height: 50px;
+         margin: 10px;
+         border: 3px solid #73AD21;
+     }
+
+     .div3 {
+         float: left;
+         width: 100px;
+         height: 50px;
+         margin: 10px;
+         border: 3px solid #73AD21;
+     }
+     .div4 {
+         border: 1px solid red;
+         clear: left;
+     }
+
+     .div5 {
+         float: left;
+         width: 100px;
+         height: 50px;
+         margin: 10px;
+         border: 3px solid #73AD21;
+     }
+
+     .div6 {
+         border: 1px solid red;
+         clear: right;
+     }
+
+     .div7 {
+         clear: left
+     }
+
+     .div8 {
+         border: 1px solid red;
+         clear: inherit;
+     }
+
+     .div9 {
+         border: 1px solid red;
+         clear: initial;
+     }
+     </style>
+</head>
+
+<body>
+    <!-- We 'float: none' nadmiar elementów si? nie mie?ci-->
+    <div class="title">float none</div>
+    <div class="mainbox">
+        <div class="kwadrat1">1</div>
+        <div class="kwadrat1">2</div>
+        <div class="kwadrat1">3</div>
+        <div class="kwadrat1">4</div>
+        <div class="kwadrat1">5</div>
+        <div class="kwadrat1">6</div>
+        <div class="kwadrat1">7</div>
+    </div>
+
+    <div class="title">Oplywanie z prawej (float: left)</div>
+    <div class="mainbox">
+        <div class="kwadrat2">1</div>
+        <div class="kwadrat2">2</div>
+        <div class="kwadrat2">3</div>
+        <div class="kwadrat2">4</div>
+        <div class="kwadrat2">5</div>
+        <div class="kwadrat2">6</div>
+        <div class="kwadrat2">7</div>
+    </div>
+
+    <div class="title">Oplywanie z lewej (float: right)</div>
+    <div class="mainbox">
+        <div class="kwadrat3">1</div>
+        <div class="kwadrat3">2</div>
+        <div class="kwadrat3">3</div>
+        <div class="kwadrat3">4</div>
+        <div class="kwadrat3">5</div>
+        <div class="kwadrat3">6</div>
+        <div class="kwadrat3">7</div>
+    </div>
+
+    <div class="title">Mieszane1</div>
+    <div class="mainbox">
+        <div class="kwadrat2">1</div>
+        <div class="kwadrat3">2</div>
+        <div class="kwadrat1">3</div>
+        <div class="kwadrat3">4</div>
+        <div class="kwadrat2">5</div>
+        <div class="kwadrat1">6</div>
+        <div class="kwadrat3">7</div>
+    </div>
+
+    <h1>No clear</h1>
+    <div class="div1">div1</div>
+    <div class="div2">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Etiam semper diam at erat pulvinar,
+        at pulvinar felis blandit.
+    </div>
+    <br><br>
+    <h1>Float and clear on the left</h1>
+    <div class="div3">div3</div>
+    <div class="div4">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Etiam semper diam at erat pulvinar,
+        at pulvinar felis blandit.
+    </div>
+    <br><br>
+    <h1>Float on the left, clear on different side</h1>
+    <div class="div5">div5</div>
+    <div class="div6">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Etiam semper diam at erat pulvinar,
+        at pulvinar felis blandit.
+    </div>
+    <br><br>
+    <h1>Clear inherited from it's div parent</h1>
+    <div class="div7">
+        <div class="div5">div7</div>
+        <div class="div8">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Etiam semper diam at erat pulvinar,
+            at pulvinar felis blandit.
+        </div>
+    </div>
+    <br><br>
+    <h1>Clear initial</h1>
+    <div class="div7">
+        <div class="div5">div7</div>
+        <div class="div9">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Etiam semper diam at erat pulvinar,
+            at pulvinar felis blandit.
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+Dla reprezentacji wielomianów z poprzedniej wprawki (lista współczynników w kolejności od wyższych do niższych potęg) zdefiniuj funkcję surf(p, xs, xf, dx), która oszacuje powierzchnię pod wykresem wielomianu p w przedziale od xs do xf próbkując wartości co dx.
+
+Powierzchnię pod wykresem wielomianu przybliżamy przez powierzchnię bardzo wąskich prostokątów o długości podstawy dx i wysokości równej p(x) dla prostokąta o podstawie [x, x+dx]. Użyj funkcji z poprzedniej wprawki (lub implementacji z tablicy) do wyliczenia wartości wielomianu w punkcie. Możesz założyć że xs <= xf. Funkcja powinna zwrócić oszacowaną wartość powierzchni.
+
+Przykładowo, powierzchnia pod wykresem wielomianu x2+3 w przedziale [0, 3] wynosi 18. Oszacowanie za pomocą funkcji surf powinno dać wynik w rodzaju surf([1, 0, 3], 0, 3, 0.0001) ≈ 17.9996 (wartość nie musi się zgadzać dokładnie, ale przy małej wartości dx powinna być bardzo zbliżona).

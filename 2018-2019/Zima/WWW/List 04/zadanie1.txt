@@ -1,0 +1,16 @@
+a)
+var menu = document.createElement("div");
+menu.id = "menu";
+document.getElementById("content").appendChild(menu);
+b)
+document.getElementById("menu").style.border = "thick solid #0000FF";
+c)
+const color = ['red', 'black', 'brown'];
+let i;
+for (i = 0; i < 3; i++){
+	let link = document.createElement("a");
+	link.innerHTML = color[i] + " ";
+	link.addEventListener("click", event => {
+        document.querySelector("#menu").style.borderColor = event.target.innerHTML;});
+document.getElementById("menu").appendChild(link);}
+

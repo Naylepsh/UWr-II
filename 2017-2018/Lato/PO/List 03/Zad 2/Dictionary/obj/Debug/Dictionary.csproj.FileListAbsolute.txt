@@ -1,0 +1,5 @@
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Dictionary\bin\Debug\Dictionary.dll
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Dictionary\bin\Debug\Dictionary.pdb
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Dictionary\obj\Debug\Dictionary.csproj.CoreCompileInputs.cache
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Dictionary\obj\Debug\Dictionary.dll
+C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Dictionary\obj\Debug\Dictionary.pdb

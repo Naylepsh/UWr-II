@@ -1,0 +1,22 @@
+p:nth-of-type(odd) {
+    color: palevioletred;
+}
+/*
+p:nth-last-of-type(2) {
+    color: burlywood;
+}
+p:last-child {
+    color: bisque;
+}*/
+:root {
+    background: darkgray;
+}
+div:empty {
+    width: 100px;
+    height: 20px;
+    background: black;
+}
+::selection {
+    color: black;
+    background: white;
+}

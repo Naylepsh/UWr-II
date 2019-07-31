@@ -1,0 +1,62 @@
+.container {
+    height: 523px;
+    width: 680px;
+    position: relative;
+    padding: 0 2px;
+}
+
+.colorTool {
+    height: 100%;
+    width: 80px;
+    position: absolute;
+    background-color: gray;
+    overflow-x: hidden;
+}
+
+.colorTool > * {
+    border: 2px solid black;
+    padding: 2px;
+    margin: 2px;
+    width: 65px;
+    height: 65px;
+    display: block;
+}
+
+.colorBlack {
+    background-color: black;
+}
+
+.colorLightGrey {
+    background-color: lightgrey;
+}
+
+.colorDarkGrey {
+    background-color: darkgrey;
+}
+
+.colorBlue {
+    background-color: cornflowerblue;
+}
+
+.colorGreen {
+    background-color: greenyellow;
+}
+
+.colorRed {
+    background-color: darkred;
+}
+
+.colorYellow {
+    background-color: lightyellow;
+}
+
+.drawing {
+    margin-left: 80px; /* Same as the width of the colorTool */
+    background-color: gray;
+    height: 100%;
+    width: 100%;
+}
+
+.drawing > * {
+    border: 2px solid black;
+}

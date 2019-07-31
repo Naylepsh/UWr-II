@@ -1,0 +1,11 @@
+1. Article: Pod tym znacznikiem można zagnieździć dowolny z podanych znaczników.
+2. Aside: Tak samo jak article.
+3. Header: Pod tym znacznikiem NIE można zagnieździć znaczników header i footer.
+4. Footer: Tak samo jak header.
+5. Address: Pod tym znacznikiem NIE można zagnieździć znaczników header, footer, address, section, nav, h1, h2.
+6. Section: Tak samo jak article.
+7. Nav: Tak samo jak article.
+8. H1: Pod tym znacznikiem NIE można zagnieździć znaczników aside, header, footer, address, section, nav, chyba że
+'flow content' jest oczekiwany. Znaczników h1, h2 w ogole nie można zagnieżdzać.
+9. H2: Tak samo jak h1.
+10. A: Pod tym znacznikiem nie można zagnieździć tego samego znacznika, tj <a><a></a></a> jest błędne.
