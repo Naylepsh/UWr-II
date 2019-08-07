@@ -1,3 +1,0 @@
-C:/Users/naylepsh/Documents/Code/UWr/AiSD/pracB/cmake-build-debug/CMakeFiles/pracB.dir
-C:/Users/naylepsh/Documents/Code/UWr/AiSD/pracB/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/naylepsh/Documents/Code/UWr/AiSD/pracB/cmake-build-debug/CMakeFiles/rebuild_cache.dir
