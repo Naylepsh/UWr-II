@@ -1,5 +1,8 @@
 def factorize(n):
-	assert n > 1
+	assert n != 0, '???'
+	n = abs(n)
+	if n == 1:
+		return [(1,1)]
 	factors = []
 	factor = 2
 	i = 0
@@ -17,3 +20,6 @@ def factorize(n):
 
 if __name__ == '__main__':
 	print(factorize(756))
+	print(factorize(27))
+	print(factorize(1))
+	print(factorize(-10))
