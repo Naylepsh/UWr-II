@@ -1,4 +1,12 @@
+fn main(){
+    printer_error("a");
+}
+
 fn printer_error(s: &str) -> String {
+    for elem in s.split(""){
+        println!("({})", elem);
+    }
+    // println!("{:?}", s.split(""));
     // string.split("") always returns at least two elements containing line-break-chars, hence why -2
     format!("{}/{}", s.split("").filter(|&letter| letter < "a" || letter > "m").count() - 2, s.len())
 }
