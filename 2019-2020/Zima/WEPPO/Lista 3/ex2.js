@@ -1,19 +1,23 @@
-function fibMemo(n) {
-  let fibs = new Array(n+1);
-  fibs[0] = 0;
-  fibs[1] = 1;
-  for (let i = 2; i < n; i++){
-    fibs[i] = fibs[i-1] + fibs[i-2];
-  }
-  return fibs[n];
-}
-
 function fibIter(n){
   let fibs = [0, 1];
   for (let i = 0; i < n; i++){
       fibs[i%2] = fibs[i%2] + fibs[(i+1)%2];
   }
   return fibs[n%2];
+}
+
+function memoize(fn) {
+  let cache = {};
+
+  return n => {
+    if (n in cache) {
+      return cache[n];
+    } else {
+      const res = fn(n);
+      cache[n] = res;
+      return res;
+    }
+  }
 }
 
 function fibRec(n){
@@ -38,14 +42,14 @@ function consoleTimer(f, label){
 
 function testFibTimes(timer){
   const timedFibIter = timer(fibIter, 'fibIter');
-  const timedFibRec =  timer(fibRec, 'fibRec');
-  const timedFibMemo = timer(fibMemo, 'fibMemo');
+  const timedFibRec =  timer(memoize(fibRec), 'fibRec');
+  console.log('first attempt');
   for (let n = 10; n <= 35; n++){
       console.log('=================')
       console.log('Times for n =', n);
       timedFibIter(n);
       timedFibRec(n);
-      timedFibMemo(n);
+      timedFibRec(n);
   }
 }
 
