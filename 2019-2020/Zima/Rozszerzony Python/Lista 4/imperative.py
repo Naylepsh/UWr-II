@@ -1,4 +1,10 @@
+# coding: utf8
+
+
 def primes(n):
+	"""
+	returns a list of prime numbers from 2 to a given integer
+	"""
 	xs = []
 	for x in range(2, n+1):
 		for y in range(2, x // 2+1):
@@ -10,6 +16,9 @@ def primes(n):
 
 
 def perfects(n):
+	"""
+	returns a list of perfect numbers from 2 to a given integer
+	"""
 	xs = []
 	for x in range(2, n+1):
 		acc = 0

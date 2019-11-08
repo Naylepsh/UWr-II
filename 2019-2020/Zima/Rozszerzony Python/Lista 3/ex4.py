@@ -1,14 +1,23 @@
+#!/usr/bin/env python3
+# coding: utf8
+
+
 from random import sample
+from re import sub
+
 
 def simplify_sentence(text, max_length, num_of_words):
-    text = list(filter(lambda word: len(word) <= max_length, text.split(' ')))
-    to_delete = sample(range(len(text)), len(text)-num_of_words)
-    return ' '.join([x for i,x in enumerate(text) if i not in to_delete])
+  """ 
+  Removes all words of a length greater than max_length from a given text.
+  If the number of remaining words exceeds num_of_words, randomly removes necessary amount
+  """
+  text = list(filter(lambda word: len(word) <= max_length, sub('[.,!?\-;]', '', text).split(' ')))
+  to_delete = sample(range(len(text)), len(text)-num_of_words)
+  return ' '.join([x for i,x in enumerate(text) if i not in to_delete])
 
 
-text = """
-
-
+if __name__ == '__main__':
+  text = """
 Adam Mickiewicz - Pan Tadeusz - Inwokacja
 
  
@@ -59,4 +68,4 @@ A wszystko przepasane, jakby wstęgą, miedzą
 
 Zieloną, na niej z rzadka ciche grusze siedzą.
 """
-print(simplify_sentence(text, 6, 10))
+  print(simplify_sentence(text, 6, 10))

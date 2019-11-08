@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# coding: utf8
+
+
+import sys
+
+
 def square_root(n):
     sum = 0
     i = 0
@@ -7,5 +14,6 @@ def square_root(n):
     return i-1
 
 
-for i in range(37):
-    print(i, square_root(i))
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        print(square_root(int(sys.argv[1])))

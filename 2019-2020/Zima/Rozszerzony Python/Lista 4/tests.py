@@ -1,30 +1,33 @@
-import comprehension
-import functional
-import imperative
-from time import time
+#!/usr/bin/env python3
+# coding: utf8
+"""
+Tests imperative vs comprehension vs functional modules for given integers on input
+"""
 
-def timer(f):
-	def wrapped(*args):
-		start = time()
-		f(*args)
-		return time() - start
-	return wrapped
+import sys
+import timeit
 
-time_primes_comp = timer(comprehension.primes)
-time_primes_func = timer(functional.primes)
-time_primes_imper = timer(imperative.primes)
-time_perfects_comp = timer(comprehension.perfects)
-time_perfects_func = timer(functional.perfects)
-time_perfects_imper = timer(imperative.perfects)
 
-n = 10000
-print(f'n = {n}')
-print('Primes compr time:', time_primes_comp(n))
-print('Primes func time:', time_primes_func(n))
-print('Primes imer time:', time_primes_imper(n))
+if __name__ == '__main__':
+	if len(sys.argv) > 1:
+		ns = list(map(lambda x: int(x), sys.argv[1:]))
 
-n = 1000
-print(f'n = {n}')
-print('Perfects compr time:', time_perfects_comp(n))
-print('Perfects func time:', time_perfects_func(n))
-print('Perfects imper time:', time_perfects_imper(n))
+	for n in ns:
+		print(f'imperative.primes({n}) in:',
+					round(timeit.timeit(f'imperative.primes({n})', setup='import imperative', number=1), 4))
+		print(f'comprehension.primes({n}) in:',
+					round(timeit.timeit(f'comprehension.primes({n})', setup='import comprehension', number=1), 4))
+		print(f'functional.primes({n}) in:',
+					round(timeit.timeit(f'functional.primes({n})', setup='import functional', number=1), 4))
+		print()
+		
+	print(10*'#'+'\n')
+
+	for n in ns:
+		print(f'imperative.primes({n}) in:',
+					round(timeit.timeit(f'imperative.perfects({n})', setup='import imperative', number=1), 4))
+		print(f'comprehension.primes({n}) in:',
+					round(timeit.timeit(f'comprehension.perfects({n})', setup='import comprehension', number=1), 4))
+		print(f'functional.primes({n}) in:',
+					round(timeit.timeit(f'functional.perfects({n})', setup='import functional', number=1), 4))
+		print()
