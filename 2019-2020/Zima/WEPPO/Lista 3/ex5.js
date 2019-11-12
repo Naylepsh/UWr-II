@@ -1,5 +1,4 @@
 function sum(...args) {
-  console.dir(args);
   return args.reduce((total, x) => total + x, 0);
 }
 

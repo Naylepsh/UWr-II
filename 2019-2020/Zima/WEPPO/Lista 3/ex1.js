@@ -3,17 +3,16 @@ let o = {
   bar() {
     return 'bar';
   },
-  get foo() {
-    return foo;
+  get getFoo() {
+    return this.foo;
   },
-  set foo(value) {
+  set setFoo(value) {
     console.log('using foo setter');
-    foo = value;
+    this.foo = value;
   }
 }
 
-o.foo = 5;
-
+o.setFoo = 'XD';
 // new property
 o.spam = 'spam';
 
@@ -30,20 +29,26 @@ Object.defineProperty(o, 'method2', {
   }
 });
 
-console.log(o); // 'property' doesnt show and neither does 'method'
+console.log(o); // 'property' doesnt show and neither does 'method1'
 console.log(o.property);
 console.log(o.method2());
 
-Object.defineProperty(o, 'spam', {
-  get spam() { 
+Object.defineProperty(o, 'getSpam', {
+  get() { 
     console.log('using spam getter'); 
-    return spam; 
+    return this.spam; 
   }
 });
-Object.defineProperty(o, 'spam', {
-  set spam(value) { spam = value; }
-});
+Object.defineProperty(o, 'setSpam', {
+  value: function(value) { 
+      console.log('using setter');
+      this.spam = value; 
+    },
+    writable: false
+  }
+);
 
-console.log(o.spam);
-o.spam = 10;
+console.log(o.getSpam);
+o.setSpam(10);
+o.spam = 3;
 console.log(o);

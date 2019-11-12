@@ -20,6 +20,7 @@ function memoize(fn) {
   }
 }
 
+
 function fibRec(n){
   if (n == 0){
       return 0;
@@ -29,6 +30,8 @@ function fibRec(n){
       return fibRec(n-1) + fibRec(n-2);
   }
 }
+
+//fibRec = memo(fibRec);
 
 function consoleTimer(f, label){
   function wrapped(...args){
