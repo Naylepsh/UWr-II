@@ -1,4 +1,5 @@
 import json
+import sys
 
 
 class Vertex():
@@ -43,8 +44,6 @@ class Graph():
 class StudentsGraph(Graph):
 
   def __init__(self, filename):
-    self.normal_students = []
-    self.whiners = []
     super().__init__()
     self.init_from_file(filename)
   
@@ -56,22 +55,25 @@ class StudentsGraph(Graph):
         self.add_vertex(vertex)
       for conflict in data['konflikty']:
         whiner = self.vertices[conflict['zrzeda']-1]
-        self.add_whiner(whiner)
         self.add_vertex(whiner)
-        normal_student = self.vertices[conflict['nielubiany']-1]
-        self.add_vertex(normal_student)
-        self.connect_vertices(whiner, normal_student)
+        victim = self.vertices[conflict['nielubiany']-1]
+        self.add_vertex(victim)
+        self.connect_vertices(whiner, victim)
   
-  def add_whiner(self, whiner):
-    if whiner.id not in map(lambda whiner: whiner.id, self.whiners):
-      self.whiners.append(whiner)
-  
-  def remove_irrevelant_vertices(self):
-    """Leaves only those vertices that can make impact on coloring (coloring of victims of degree < 4 is irrevelant)"""
-    self.vertices = list(filter(lambda vertex: vertex in self.whiners or len(vertex.neighbours) > 3, self.vertices))
+  def _remove_irrevelant_vertices(self):
+    """Leaves only those vertices that can make impact on coloring (coloring of vertices of degree < 4 is irrevelant)"""
+    self.vertices = list(filter(lambda vertex: len(vertex.neighbours) > 3, self.vertices))
     for vertex in self.vertices:
       vertex.neighbours = list(filter(lambda v: v in self.vertices, vertex.neighbours))
     self.reindex_vertices()
+  
+  def _leave_relevant_subgraph(self):
+    """Loops remove_irrevelant_vertices method till there are none irrevelant vertices left"""
+    prev = len(self.vertices)
+    self._remove_irrevelant_vertices()
+    while len(self.vertices) != prev:
+      prev = len(self.vertices)
+      self._remove_irrevelant_vertices()
   
   def to_SAT(self):
     def tutor1(student):
@@ -108,7 +110,7 @@ class StudentsGraph(Graph):
     def format_clauses(clauses):
       return '\n'.join(list(map(lambda clause: ' '.join(clause+['0']), clauses)))
 
-    self.remove_irrevelant_vertices()
+    self._leave_relevant_subgraph()
     clauses = []
     visited = []
     for vertex in self.vertices:
@@ -117,16 +119,13 @@ class StudentsGraph(Graph):
       for neighbour in vertex.neighbours:
         if neighbour not in visited:
           clauses += not_the_same_tutors(vertex.id, neighbour.id)
+          
+    if len(clauses) == 0:
+      return f'p cnf 1 1\n1 0'
     return f'p cnf {4*len(self.vertices)} {len(clauses)}\n' + format_clauses(clauses)
 
-  def __str__(self):
-    return '\n'.join([f'whiners: {list(map(lambda whiner: whiner.id, self.whiners))}',
-                      f'normal students: {list(map(lambda student: student.id, self.normal_students))}',
-                      f'graph: \n{super().__str__()}'])
 
-
-        
-
-
-sg = StudentsGraph('problem.json')
-print(sg.to_SAT())
+if __name__ == '__main__':
+  graph_file = sys.argv[1]
+  graph = StudentsGraph(graph_file)
+  print(graph.to_SAT())
