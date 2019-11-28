@@ -17,7 +17,7 @@ def main():
         run(cells, history, win)
         win.update()
     print("Score (Red , Blue) :", get_score(cells))
-    #tkinter.mainloop()
+    tkinter.mainloop()
 
 
 def init_cells(fname1, fname2):
