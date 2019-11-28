@@ -45,9 +45,9 @@ class StudentsGraph(Graph):
 
   def __init__(self, filename):
     super().__init__()
-    self.init_from_file(filename)
+    self.init_from_json(filename)
   
-  def init_from_file(self, filename):
+  def init_from_json(self, filename):
     with open(filename, 'r') as file:
       data = json.load(file)
       for id in range(1, data['studenci']+1):
