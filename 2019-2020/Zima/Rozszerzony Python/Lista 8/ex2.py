@@ -38,8 +38,9 @@ class GameOfLife():
     self.board = newBoard
 
 
-game = GameOfLife(10)
-fig, ax = plt.subplots()
-mat = ax.matshow(game.board)
-ani = animation.FuncAnimation(fig, game.simulate_turn, interval=100)
-plt.show()
+if __name__ == '__main__':
+  game = GameOfLife(10)
+  fig, ax = plt.subplots()
+  mat = ax.matshow(game.board)
+  ani = animation.FuncAnimation(fig, game.simulate_turn, interval=100)
+  plt.show()

@@ -90,5 +90,4 @@ class GarbageSearch():
 if __name__ == '__main__':
   start = time()
   s = GarbageSearch('https://www.ii.uni.wroc.pl/~marcinm/dyd/python/', 2)
-  print(time() - start)
   print(s['Python'])
