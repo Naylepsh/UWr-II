@@ -1,0 +1,8 @@
+Napisz w asemblerze x86-64 procedurę o sygnaturze «void add_bignum(bignum_t *a, bignum_t *b, bignum_t *r)». 
+Ma ona umieścić wynik dodawania dwóch długich liczb a i b w r. Wynik r jest w stanie w całości pomieścić liczbę wynikową. 
+Struktura bignum_t jest zdefiniowana następująco:
+typedef struct {
+  uint32_t n;
+  uint8_t digits[];
+} bignum_t;
+Pole n oznacza liczbę bajtów w tablicy digits. Bajty są zapisane od najmniej znaczącego do najbardziej znaczącego

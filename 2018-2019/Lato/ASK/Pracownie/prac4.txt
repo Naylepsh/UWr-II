@@ -1,0 +1,4 @@
+Napisz w asemblerze x86-64 procedurę o sygnaturze «uint32_t sqrf(uint32_t)». 
+Jej zadaniem jest policzyć kwadrat liczby zmiennopozycyjnej reprezentowanej przez 32-bitowe słowo. 
+Należy zaokrąglać wynik w kierunku zera. Zakładamy, że argument procedury będzie taki, 
+że wynik nigdy nie powinien być niezerową liczbą zdenormalizowaną.
