@@ -1,0 +1,6 @@
+<% for (const option of options) { %>
+  <div>
+    <label for="<%= option.label %>"><%= option.label %></label>
+    <input type="checkbox" name="<%= option.label %>" value="<%= option.value %>">
+  </div>
+<% } %>
