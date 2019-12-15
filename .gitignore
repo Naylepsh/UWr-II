@@ -63,3 +63,6 @@ typings/
 # weppo things
 uploads/
 sessions/
+
+# tests
+tests/
