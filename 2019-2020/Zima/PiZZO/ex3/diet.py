@@ -1,7 +1,7 @@
 import json
 from z3 import *
 from functools import reduce
-from time import time
+import sys
 
 
 MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
@@ -38,6 +38,8 @@ def create_meal_assertions(meal_vars, ingredient_vars, target):
   for param in meal_vars:
     total_value = 0
     for meal in meal_vars[param]:
+      things_eaten = sum([ingredient.get_var(meal) for ingredient in ingredient_vars.values()])
+      assertions.append(things_eaten > 0)
       meal_value = sum([ingredient.value(meal, param) for ingredient in ingredient_vars.values()])
       total_value += meal_value
     assertions.append(And(
@@ -51,7 +53,7 @@ def create_ingredient_assertions(ingredients, target):
   for ingredient in ingredients.values():
     for var in ingredient.vars:
       assertions.append(And(
-        ingredient.vars[var] >= 1, 
+        ingredient.vars[var] >= 0, 
         ingredient.vars[var] <= min([ target[param]['max'] // ingredient.params[param] for param in ingredient.params])))
   return assertions
 
@@ -72,13 +74,13 @@ def create_conflict_assertions(ingredients, conflicts):
   return assertions
 
 if __name__ == '__main__':
-  with open('tests/data.json', 'r') as infile:
+  # path_to_file = input('Enter a path to a file: ')
+  path_to_file = sys.argv[1]
+  with open(path_to_file, 'r') as infile:
     data = json.load(infile)
-  s = time()
   ingredient_vars = create_ingredient_vars(data['skladniki'], data['parametry'])
   meal_vars = create_meal_vars(data['parametry'])
   ingredient_assertions = create_ingredient_assertions(ingredient_vars, data['cel'])
   meal_assertions = create_meal_assertions(meal_vars, ingredient_vars, data['cel'])
   conflict_assertions = create_conflict_assertions(ingredient_vars, data['konflikty'])
-  print(time() - s)
   solve(*(ingredient_assertions+meal_assertions+conflict_assertions))
