@@ -53,7 +53,7 @@ def create_ingredient_assertions(solver, ingredients, target):
     for var in ingredient.vars:
       solver.add(And(
         ingredient.vars[var] >= 0, 
-        ingredient.vars[var] <= min([ (target[param]['max'] // ingredient.params[param]) + 1 for param in ingredient.params])))
+        ingredient.vars[var] <= min([ (target[param]['max'] // ingredient.params[param]) for param in ingredient.params])))
 
 
 def create_conflict_assertions(solver, ingredients, conflicts):
