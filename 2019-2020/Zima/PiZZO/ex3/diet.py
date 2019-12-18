@@ -7,12 +7,10 @@ import sys
 MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
 
 class Ingredient():
-  params = {}
 
   def __init__(self, ingredient_dict, params):
     self.name = ingredient_dict['nazwa']
-    if not Ingredient.params:
-      Ingredient.params = { param : ingredient_dict[param] for param in params }
+    self.params = { param : ingredient_dict[param] for param in params }
     self.vars = { self.var_name(meal) : Int(self.var_name(meal)) for meal in MEALS }
   
   def var_name(self, meal):
@@ -22,7 +20,10 @@ class Ingredient():
     return self.vars[self.var_name(meal)]
   
   def value(self, meal, param):
-    return ToReal(self.vars[self.var_name(meal)]) * Ingredient.params[param]
+    return ToReal(self.vars[self.var_name(meal)]) * self.params[param]
+  
+  def __repr__(self):
+    return self.name
 
 
 def create_ingredient_vars(ingredients, params):
@@ -33,54 +34,60 @@ def create_meal_vars(params):
   return { param : { meal : Int(param+' '+meal) for meal in MEALS} for param in params }
 
 
-def create_meal_assertions(meal_vars, ingredient_vars, target):
-  assertions = []
+def create_meal_assertions(solver, meal_vars, ingredient_vars, target):
+  for meal in MEALS:
+    things_eaten = sum([ingredient.get_var(meal) for ingredient in ingredient_vars.values()])
+    solver.add(things_eaten > 0)
   for param in meal_vars:
     total_value = 0
     for meal in meal_vars[param]:
-      things_eaten = sum([ingredient.get_var(meal) for ingredient in ingredient_vars.values()])
-      assertions.append(things_eaten > 0)
       meal_value = sum([ingredient.value(meal, param) for ingredient in ingredient_vars.values()])
       total_value += meal_value
-    assertions.append(And(
+    solver.add(And(
       total_value >= target[param]['min'],
       total_value <= target[param]['max']))
-  return assertions
 
 
-def create_ingredient_assertions(ingredients, target):
-  assertions = []
+def create_ingredient_assertions(solver, ingredients, target):
   for ingredient in ingredients.values():
     for var in ingredient.vars:
-      assertions.append(And(
+      solver.add(And(
         ingredient.vars[var] >= 0, 
-        ingredient.vars[var] <= min([ target[param]['max'] // ingredient.params[param] for param in ingredient.params])))
-  return assertions
+        ingredient.vars[var] <= min([ (target[param]['max'] // ingredient.params[param]) + 1 for param in ingredient.params])))
 
 
-def create_conflict_assertions(ingredients, conflicts):
-  assertions = []
+def create_conflict_assertions(solver, ingredients, conflicts):
   for conflict in conflicts:
     left = ingredients[conflict['nazwa1']]
     right = ingredients[conflict['nazwa2']]
     for meal in MEALS:
       var_left = left.get_var(meal)
       var_right = right.get_var(meal)
-      assertions.append(
+      solver.add(
         And(
           Implies(var_left  > 0, var_right == 0),
           Implies(var_right > 0, var_left  == 0)
       ))
-  return assertions
 
 if __name__ == '__main__':
   # path_to_file = input('Enter a path to a file: ')
   path_to_file = sys.argv[1]
   with open(path_to_file, 'r') as infile:
     data = json.load(infile)
+  solver = Solver()
   ingredient_vars = create_ingredient_vars(data['skladniki'], data['parametry'])
   meal_vars = create_meal_vars(data['parametry'])
-  ingredient_assertions = create_ingredient_assertions(ingredient_vars, data['cel'])
-  meal_assertions = create_meal_assertions(meal_vars, ingredient_vars, data['cel'])
-  conflict_assertions = create_conflict_assertions(ingredient_vars, data['konflikty'])
-  solve(*(ingredient_assertions+meal_assertions+conflict_assertions))
+  create_ingredient_assertions(solver, ingredient_vars, data['cel'])
+  create_meal_assertions(solver, meal_vars, ingredient_vars, data['cel'])
+  create_conflict_assertions(solver, ingredient_vars, data['konflikty'])
+  if solver.check() == sat:
+    model = solver.model()
+    for meal in MEALS:
+      print(meal+': ', end='')
+      used_ingredients = list(filter(lambda x: model.evaluate(x.get_var(meal)).as_long() > 0, ingredient_vars.values()))
+      food = []
+      for ingredient in used_ingredients:
+        food += [str(ingredient)] * model.evaluate(ingredient.get_var(meal)).as_long()
+      print(', '.join(food))
+  else:
+    print('Nie mozna wygenerowac diety.')
