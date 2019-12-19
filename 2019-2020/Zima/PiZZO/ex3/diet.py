@@ -187,9 +187,8 @@ def print_model(solver, vars):
   model = solver.model()
   for meal in MEALS:
     print(meal+': ', end='')
-    used_ingredients = list(filter(lambda x: model.evaluate(x.get_var(meal)).as_long() > 0, ingredient_vars.values()))
     food = []
-    for ingredient in used_ingredients:
+    for ingredient in used_ingredients.values():
       food += [str(ingredient)] * model.evaluate(ingredient.get_var(meal)).as_long()
     print(', '.join(food))
 
