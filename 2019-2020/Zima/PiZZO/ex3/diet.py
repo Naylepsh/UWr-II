@@ -2,22 +2,30 @@ import json
 from z3 import *
 
 
-MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
+# MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
+MEALS = {
+  'śniadanie' : '0',
+  'lunch' : '1',
+  'obiad' : '2',
+  'podwieczorek' : '3',
+  'kolacja' : '4'
+}
 
 
 class Ingredient():
   """
-  The Ingredient object containg name and nutritional values of an ingredient. 
+  The Ingredient object containg id and nutritional values of an ingredient. 
   Comes also with SMT variables for each of the meal.
   """
 
-  def __init__(self, ingredient_info, nutrients):
+  def __init__(self, id, ingredient_info, nutrients):
     """
     Parameters:
     ingredient_info (dict): Dictionary containing nutrition information
     nutrients (list): List of nutrients to keep track of
     """
-    self.name = ingredient_info['nazwa']
+    self.id = id
+    # self.name = ingredient_info['nazwa']
     self.nutrients = { nutrient : ingredient_info[nutrient] for nutrient in nutrients}
     self.vars = self._init_vars()
   
@@ -29,7 +37,7 @@ class Ingredient():
     return { self.var_name(meal) : Int(self.var_name(meal)) for meal in MEALS }
   
   def var_name(self, meal):
-    return self.name + ' ' + meal
+    return self.id + ' ' + MEALS[meal]
   
   def get_var(self, meal):
     return self.vars[self.var_name(meal)]
@@ -50,8 +58,26 @@ class Ingredient():
   def nutritional_value(self, nutrient):
     return self.nutrients[nutrient]
   
-  def __repr__(self):
-    return self.name
+  # def __repr__(self):
+  #   return self.name
+
+
+def id_creator():
+  """
+  Helper function creating new string id when called
+
+  How to use:
+  new_id = id_creator()
+  first_id = new_id()
+  second_id = new_id()
+  and so on..
+  """
+  id = { 'value' : 0 }
+  def new_id():
+    old = id['value']
+    id['value'] += 1
+    return str(old)
+  return new_id
 
 
 def create_ingredient_vars(ingredients, nutrients):
@@ -65,7 +91,8 @@ def create_ingredient_vars(ingredients, nutrients):
   Returns:
   variables (dict): A (name : Ingredient) dictionary
   """
-  return { ingredient['nazwa'] : Ingredient(ingredient, nutrients) for ingredient in ingredients } 
+  new_id = id_creator()
+  return { ingredient['nazwa'] : Ingredient(new_id(), ingredient, nutrients) for ingredient in ingredients } 
 
 
 def create_meal_vars(nutrients):
@@ -78,7 +105,8 @@ def create_meal_vars(nutrients):
   Returns:
   variables (dict): Dictionary of nutrients, each containing a dictionary of nutrition-value-of-a-meal SMT variables
   """
-  return { param : { meal : Int(param+' '+meal) for meal in MEALS} for param in nutrients }
+  new_id = id_creator()
+  return { param : { meal : Int(new_id()+MEALS[meal]) for meal in MEALS} for param in nutrients }
 
 
 def create_meal_assertions(solver, meal_vars, ingredient_vars, target):
@@ -156,7 +184,7 @@ def create_vars(solver, data):
   Returns:
   ingredient_and_meal_vars (tuple): Tuple of two data structures containing ingredient and meal SMT variables
   """
-  return (create_ingredient_vars(data['skladniki'], data['parametry']),
+  return (create_ingredient_vars(data['składniki'], data['parametry']),
           create_meal_vars(data['parametry']))
 
 
@@ -188,14 +216,14 @@ def print_model(solver, vars):
   for meal in MEALS:
     print(meal+': ', end='')
     food = []
-    for ingredient in used_ingredients.values():
-      food += [str(ingredient)] * model.evaluate(ingredient.get_var(meal)).as_long()
+    for name in ingredient_vars:
+      food += [name] * model.evaluate(ingredient_vars[name].get_var(meal)).as_long()
     print(', '.join(food))
 
 
 if __name__ == '__main__':
   path_to_file = input('Enter a path to a file: ')
-  with open(path_to_file, 'r') as infile:
+  with open(path_to_file, 'r', encoding='utf-8') as infile:
     data = json.load(infile)
 
   solver = Solver()
@@ -205,4 +233,4 @@ if __name__ == '__main__':
   if solver.check() == sat:
     print_model(solver, vars)
   else:
-    print('Nie mozna wygenerowac diety.')
+    print('Nie można wygenerować diety.')
