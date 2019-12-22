@@ -25,7 +25,6 @@ class Ingredient():
     nutrients (list): List of nutrients to keep track of
     """
     self.id = id
-    # self.name = ingredient_info['nazwa']
     self.nutrients = { nutrient : ingredient_info[nutrient] for nutrient in nutrients}
     self.vars = self._init_vars()
   
@@ -57,9 +56,6 @@ class Ingredient():
   
   def nutritional_value(self, nutrient):
     return self.nutrients[nutrient]
-  
-  # def __repr__(self):
-  #   return self.name
 
 
 def id_creator():
