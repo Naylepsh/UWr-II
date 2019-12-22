@@ -1,5 +1,6 @@
 import json
 from z3 import *
+import sys
 
 
 MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
@@ -27,7 +28,7 @@ def create_food_table(ingredients, nutrients):
   return { ingredient['nazwa'] : { nutrient : ingredient[nutrient] for nutrient in nutrients } for ingredient in ingredients }
 
 
-def create_ingredient_vars(solver, ingredients, generate_id):
+def create_ingredient_vars(solver, generate_id, ingredients):
   xs = { ingredient['nazwa'] : Int(generate_id()) for ingredient in ingredients }
   for var in xs.values():
     solver.add(var >= 0, var <= sys.maxsize)
@@ -66,6 +67,18 @@ def print_model(solver, meal_vars):
     print(', '.join(food))
 
 
+def json_model(solver, meal_vars, filename):
+  model = solver.model()
+  solution = {}
+  for meal in meal_vars:
+    food = []
+    for ingredient in meal_vars[meal]:
+      food += [ingredient] * model.evaluate(meal_vars[meal][ingredient]).as_long()
+    solution[meal] = food
+  with open(filename, 'w', encoding='utf-8') as file:
+    json.dump(solution, file, indent=2)
+
+
 if __name__ == '__main__':
   path_to_file = input()
   with open(path_to_file, 'r', encoding='utf-8') as infile:
@@ -75,12 +88,15 @@ if __name__ == '__main__':
   
   solver = Solver()
   generate_id = id_creator()
-  meal_vars = { meal : create_ingredient_vars(solver, data['składniki'], generate_id) for meal in MEALS }
+  meal_vars = { meal : create_ingredient_vars(solver, generate_id, data['składniki']) for meal in MEALS }
   provide_meal_assertions(solver,meal_vars)
   provide_nutrition_assertions(solver, food_table, data['cel'], meal_vars, data['składniki'])
   provide_conflict_assertions(solver, data['konflikty'], meal_vars)
 
   if solver.check() == sat:
-    print_model(solver, meal_vars)
+    if len(sys.argv) == 3 and sys.argv[1] == 'json':
+      json_model(solver, meal_vars, sys.argv[2])
+    else:
+      print_model(solver, meal_vars)
   else:
     print('Nie można wygenerować diety.')
