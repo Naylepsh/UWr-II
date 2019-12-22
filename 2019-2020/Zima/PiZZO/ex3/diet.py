@@ -1,8 +1,6 @@
 import json
 from z3 import *
 
-
-# MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
 MEALS = {
   'śniadanie' : '0',
   'lunch' : '1',
@@ -125,9 +123,9 @@ def create_meal_assertions(solver, meal_vars, ingredient_vars, target):
     for meal in meal_vars[nutrient]:
       meal_value = sum([ingredient.value(meal, nutrient) for ingredient in ingredient_vars.values()])
       total_value += meal_value
-    solver.add(And(
+    solver.add(
       total_value >= target[nutrient]['min'],
-      total_value <= target[nutrient]['max']))
+      total_value <= target[nutrient]['max'])
 
 
 def create_ingredient_assertions(solver, ingredients_vars, target):
@@ -141,9 +139,7 @@ def create_ingredient_assertions(solver, ingredients_vars, target):
   """
   for ingredient in ingredients_vars.values():
     for var in ingredient.vars:
-      solver.add(And(
-        ingredient.vars[var] >= 0, 
-        ingredient.vars[var] <= min([ (target[param]['max'] // ingredient.nutritional_value(param)) for param in ingredient.nutrients])))
+      solver.add(ingredient.vars[var] >= 0, ingredient.vars[var] <= sys.maxsize )
 
 
 def create_conflict_assertions(solver, ingredients_vars, conflicts):
@@ -162,11 +158,7 @@ def create_conflict_assertions(solver, ingredients_vars, conflicts):
     for meal in MEALS:
       var_left = left.get_var(meal)
       var_right = right.get_var(meal)
-      solver.add(
-        And(
-          Implies(var_left  > 0, var_right == 0),
-          Implies(var_right > 0, var_left  == 0)
-      ))
+      solver.add(Or(Not(var_left  > 0),Not(var_right > 0)))
 
 
 def create_vars(solver, data):
