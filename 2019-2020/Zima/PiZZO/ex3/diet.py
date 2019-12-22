@@ -119,10 +119,9 @@ def create_meal_assertions(solver, meal_vars, ingredient_vars, target):
     things_eaten = sum([ingredient.get_var(meal) for ingredient in ingredient_vars.values()])
     solver.add(things_eaten > 0)
   for nutrient in meal_vars:
-    total_value = 0
-    for meal in meal_vars[nutrient]:
-      meal_value = sum([ingredient.value(meal, nutrient) for ingredient in ingredient_vars.values()])
-      total_value += meal_value
+    total_value = sum(
+      [ sum([ingredient.value(meal, nutrient) for ingredient in ingredient_vars.values()]) for meal in meal_vars[nutrient] ]
+    )
     solver.add(
       total_value >= target[nutrient]['min'],
       total_value <= target[nutrient]['max'])
@@ -210,7 +209,7 @@ def print_model(solver, vars):
 
 
 if __name__ == '__main__':
-  path_to_file = input('Enter a path to a file: ')
+  path_to_file = input()
   with open(path_to_file, 'r', encoding='utf-8') as infile:
     data = json.load(infile)
 
