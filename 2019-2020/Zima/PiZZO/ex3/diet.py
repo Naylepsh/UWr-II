@@ -1,59 +1,8 @@
 import json
 from z3 import *
 
-MEALS = {
-  'śniadanie' : '0',
-  'lunch' : '1',
-  'obiad' : '2',
-  'podwieczorek' : '3',
-  'kolacja' : '4'
-}
 
-
-class Ingredient():
-  """
-  The Ingredient object containg id and nutritional values of an ingredient. 
-  Comes also with SMT variables for each of the meal.
-  """
-
-  def __init__(self, id, ingredient_info, nutrients):
-    """
-    Parameters:
-    ingredient_info (dict): Dictionary containing nutrition information
-    nutrients (list): List of nutrients to keep track of
-    """
-    self.id = id
-    self.nutrients = { nutrient : ingredient_info[nutrient] for nutrient in nutrients}
-    self.vars = self._init_vars()
-  
-  def _init_vars(self):
-    """
-    Returns:
-    vars (dict): Dictionary of SMT variables for each of the meal
-    """
-    return { self.var_name(meal) : Int(self.var_name(meal)) for meal in MEALS }
-  
-  def var_name(self, meal):
-    return self.id + ' ' + MEALS[meal]
-  
-  def get_var(self, meal):
-    return self.vars[self.var_name(meal)]
-  
-  def value(self, meal, nutrient):
-    """
-    Value = Occurences_of_the_ingredient_in_a_meal * it's_nutrition_value
-
-    Parameters:
-    meal (string)
-    nutrient (string)
-
-    Returns:
-    value (SMT.Real)
-    """
-    return ToReal(self.get_var(meal)) * self.nutritional_value(nutrient)
-  
-  def nutritional_value(self, nutrient):
-    return self.nutrients[nutrient]
+MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
 
 
 def id_creator():
@@ -74,137 +23,46 @@ def id_creator():
   return new_id
 
 
-def create_ingredient_vars(ingredients, nutrients):
-  """
-  Creates ingredient SMT variables.
-
-  Parameters:
-  ingredients (list): List of dicts containing the name and nutrition values of an ingredient
-  nutrients (list): List of nutrients to keep track of
-
-  Returns:
-  variables (dict): A (name : Ingredient) dictionary
-  """
-  new_id = id_creator()
-  return { ingredient['nazwa'] : Ingredient(new_id(), ingredient, nutrients) for ingredient in ingredients } 
+def create_food_table(ingredients, nutrients):
+  return { ingredient['nazwa'] : { nutrient : ingredient[nutrient] for nutrient in nutrients } for ingredient in ingredients }
 
 
-def create_meal_vars(nutrients):
-  """
-  Creates meal SMT variables grouped by nutrients
-
-  Parameters:
-  nutrients (list): List of nutrients to keep track of
-
-  Returns:
-  variables (dict): Dictionary of nutrients, each containing a dictionary of nutrition-value-of-a-meal SMT variables
-  """
-  new_id = id_creator()
-  return { param : { meal : Int(new_id()+MEALS[meal]) for meal in MEALS} for param in nutrients }
+def create_ingredient_vars(solver, ingredients, generate_id):
+  xs = { ingredient['nazwa'] : Int(generate_id()) for ingredient in ingredients }
+  for var in xs.values():
+    solver.add(var >= 0, var <= sys.maxsize)
+  return xs
 
 
-def create_meal_assertions(solver, meal_vars, ingredient_vars, target):
-  """
-  Provides SMT solver with meal assertions such as:
-  - Each meal is not empty
-  - Total sum of each nutrient of all meals is kept within given boundaries
-
-  Parameters:
-  solver (z3solver): SMT solver
-  meal_vars (dict): Dictionary of nutrients, each containing a dictionary of nutrition-value-of-a-meal SMT variables
-  ingredient_vars (dict):  A (name : Ingredient) dictionary
-  target (dict): Dictionary of nutrients, each containing a dict of min and max boundaries
-  """
-  for meal in MEALS:
-    things_eaten = sum([ingredient.get_var(meal) for ingredient in ingredient_vars.values()])
-    solver.add(things_eaten > 0)
-  for nutrient in meal_vars:
-    total_value = sum(
-      [ sum([ingredient.value(meal, nutrient) for ingredient in ingredient_vars.values()]) for meal in meal_vars[nutrient] ]
-    )
-    solver.add(
-      total_value >= target[nutrient]['min'],
-      total_value <= target[nutrient]['max'])
+def provide_meal_assertions(solver, meal_vars):
+  for meal in meal_vars.values():
+    solver.add(Sum(list(meal.values())) > 0)
 
 
-def create_ingredient_assertions(solver, ingredients_vars, target):
-  """
-  Provides SMT solver with ingredient occurence boundaries
-
-  Parameters:
-  solver (z3solver): SMT solver
-  ingredient_vars (dict):  A (name : Ingredient) dictionary
-  target (dict): Dictionary of nutrients, each containing a dict of min and max boundaries
-  """
-  for ingredient in ingredients_vars.values():
-    for var in ingredient.vars:
-      solver.add(ingredient.vars[var] >= 0, ingredient.vars[var] <= sys.maxsize )
+def provide_nutrition_assertions(solver, food_table, target, meal_vars, s):
+  for nutrient in target:
+    value_per_ingredient = []
+    for ingredient in food_table:
+      value_per_ingredient.append(Sum([ ToReal(meal_vars[meal][ingredient]) * food_table[ingredient][nutrient] for meal in meal_vars ]))
+    total_value = Sum(value_per_ingredient)
+    solver.add(total_value >= target[nutrient]['min'], total_value <= target[nutrient]['max'])
 
 
-def create_conflict_assertions(solver, ingredients_vars, conflicts):
-  """
-  Provides SMT solver with conditions preventing ingredients-in-conflict from being grouped up together
-
-  Parameters:
-  solver (z3solver): SMT solver
-  ingredients_vars (dict):  A (name : Ingredient) dictionary
-  conflicts (list): List of dictionaries of pair of ingredients-in-conflict
-
-  """
+def provide_conflict_assertions(solver, conflicts, meal_vars):
   for conflict in conflicts:
-    left = ingredients_vars[conflict['nazwa1']]
-    right = ingredients_vars[conflict['nazwa2']]
-    for meal in MEALS:
-      var_left = left.get_var(meal)
-      var_right = right.get_var(meal)
-      solver.add(Or(Not(var_left  > 0),Not(var_right > 0)))
+    x = conflict['nazwa1']
+    y = conflict['nazwa2']
+    for vars in meal_vars.values():
+      solver.add(Or(Not(vars[x]  > 0),Not(vars[y] > 0)))
 
 
-def create_vars(solver, data):
-  """
-  Creates SMT ingredient and meal variables
-
-  Parameters:
-  solver (z3solver): SMT solver
-  data (dict): Dictionary containing ingredient and nutrition informations
-
-  Returns:
-  ingredient_and_meal_vars (tuple): Tuple of two data structures containing ingredient and meal SMT variables
-  """
-  return (create_ingredient_vars(data['składniki'], data['parametry']),
-          create_meal_vars(data['parametry']))
-
-
-def provide_assertions(solver, vars, data):
-  """
-  Provides SMT solver with ingredient occurence, meal nutrition and ingredient conflict assertions
-
-  Parameters:
-  solver (z3solver): SMT solver
-  vars (tuple): Tuple of two data structers, first containing ingredient SMT vars, second containg meal ones
-  data (dict): Dictionary containing ingredient and nutrition informations
-  """
-  ingredient_vars, meal_vars = vars
-  create_ingredient_assertions(solver, ingredient_vars, data['cel'])
-  create_meal_assertions(solver, meal_vars, ingredient_vars, data['cel'])
-  create_conflict_assertions(solver, ingredient_vars, data['konflikty'])
-
-
-def print_model(solver, vars):
-  """
-  Prints ingredients-to-consume-by-meal that satisfy previously given conditions to SMT solver
-
-  Parameters:
-  solver (z3solver): SMT solver
-  vars (tuple): Tuple of two data structers, first containing ingredient SMT vars, second containg meal ones
-  """
-  ingredient_vars, meal_vars = vars
+def print_model(solver, meal_vars):
   model = solver.model()
-  for meal in MEALS:
-    print(meal+': ', end='')
+  for meal in meal_vars:
+    print(f'{meal}: ', end='')
     food = []
-    for name in ingredient_vars:
-      food += [name] * model.evaluate(ingredient_vars[name].get_var(meal)).as_long()
+    for ingredient in meal_vars[meal]:
+      food += [ingredient] * model.evaluate(meal_vars[meal][ingredient]).as_long()
     print(', '.join(food))
 
 
@@ -213,11 +71,16 @@ if __name__ == '__main__':
   with open(path_to_file, 'r', encoding='utf-8') as infile:
     data = json.load(infile)
 
+  food_table = create_food_table(data['składniki'], data['parametry'])
+  
   solver = Solver()
-  vars = create_vars(solver, data)
-  provide_assertions(solver, vars, data)
+  generate_id = id_creator()
+  meal_vars = { meal : create_ingredient_vars(solver, data['składniki'], generate_id) for meal in MEALS }
+  provide_meal_assertions(solver,meal_vars)
+  provide_nutrition_assertions(solver, food_table, data['cel'], meal_vars, data['składniki'])
+  provide_conflict_assertions(solver, data['konflikty'], meal_vars)
 
   if solver.check() == sat:
-    print_model(solver, vars)
+    print_model(solver, meal_vars)
   else:
     print('Nie można wygenerować diety.')
