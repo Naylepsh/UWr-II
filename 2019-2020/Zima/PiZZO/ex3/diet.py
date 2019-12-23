@@ -3,7 +3,7 @@ from z3 import *
 import sys
 
 
-MEALS = ['sniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
+MEALS = ['śniadanie', 'lunch', 'obiad', 'podwieczorek', 'kolacja']
 
 
 def id_creator():
@@ -67,18 +67,6 @@ def print_model(solver, meal_vars):
     print(', '.join(food))
 
 
-def json_model(solver, meal_vars, filename):
-  model = solver.model()
-  solution = {}
-  for meal in meal_vars:
-    food = []
-    for ingredient in meal_vars[meal]:
-      food += [ingredient] * model.evaluate(meal_vars[meal][ingredient]).as_long()
-    solution[meal] = food
-  with open(filename, 'w', encoding='utf-8') as file:
-    json.dump(solution, file, indent=2)
-
-
 if __name__ == '__main__':
   path_to_file = input()
   with open(path_to_file, 'r', encoding='utf-8') as infile:
@@ -94,9 +82,6 @@ if __name__ == '__main__':
   provide_conflict_assertions(solver, data['konflikty'], meal_vars)
 
   if solver.check() == sat:
-    if len(sys.argv) == 3 and sys.argv[1] == 'json':
-      json_model(solver, meal_vars, sys.argv[2])
-    else:
-      print_model(solver, meal_vars)
+    print_model(solver, meal_vars)
   else:
     print('Nie można wygenerować diety.')
