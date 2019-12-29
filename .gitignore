@@ -71,8 +71,7 @@ tests/
 .vscode/
 
 # rust trash
-/target
-**/*.rs.bk
+target/
 Cargo.lock
 bin/
 pkg/

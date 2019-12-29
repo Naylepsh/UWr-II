@@ -1,0 +1,1 @@
+C:\Users\naylepsh\Documents\Code\University\2019-2020\Zima\Rust\List\ 11\wasm-game-of-life\target\wasm32-unknown-unknown\release\libwasm_game_of_life.rlib: C:\Users\naylepsh\Documents\Code\University\2019-2020\Zima\Rust\List\ 11\wasm-game-of-life\src\lib.rs C:\Users\naylepsh\Documents\Code\University\2019-2020\Zima\Rust\List\ 11\wasm-game-of-life\src\utils.rs
