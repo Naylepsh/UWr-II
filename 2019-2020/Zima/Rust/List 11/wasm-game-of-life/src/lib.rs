@@ -29,13 +29,6 @@ impl Cell {
             Cell::Alive => Cell::Dead,
         };
     }
-
-    fn to_rgb(&self) -> Rgb {
-        match *self {
-            Cell::Dead => Rgb::new(0,0,0),
-            Cell::Alive => Rgb::new(255,255,255)
-        }
-    }
 }
 
 #[wasm_bindgen]
@@ -215,10 +208,6 @@ impl Image {
         self.width
     }
 
-    pub fn get_pixels(&self) -> Vec<u8> {
-        self.pixels.clone()
-    }
-
     pub fn get_height(&self) -> u32 {
         self.height
     }
@@ -227,53 +216,6 @@ impl Image {
     pub fn get_image_data(&mut self) -> ImageData {
         let image_data = ImageData::new_with_u8_clamped_array_and_sh(Clamped(&mut self.pixels), self.width, self.height).unwrap();
         image_data
-    }
-}
-
-/// Create a new Image from a Vec of u8s representing image pixels.
-impl From<ImageData> for Image {
-    fn from(imgdata: ImageData) -> Self {
-        let width = imgdata.width();
-        let height = imgdata.height();
-        let pixels = to_pixels(imgdata);
-        return Image {pixels, width, height}
-    }
-}
-
-/// RGB color type.
-#[wasm_bindgen]
-pub struct Rgb {
-    r: u8,
-    g: u8,
-    b: u8
-}
-
-#[wasm_bindgen]
-impl Rgb {
-    pub fn new(r: u8, g: u8, b: u8) -> Rgb {
-        return Rgb {r: r, g: g, b: b};
-    }
-
-    pub fn get_red(&self) -> u8 {
-        self.r
-    }
-
-    pub fn get_green(&self) -> u8 {
-        self.g
-    }
-
-    pub fn get_blue(&self) -> u8 {
-        self.b
-    }
-}
-
-impl From<Vec<u8>> for Rgb {
-    fn from(vec: Vec<u8>) -> Self {
-        if vec.len() != 3 {
-            panic!("Vec length must be equal to 3.")
-        }
-        let rgb = Rgb::new(vec[0], vec[1], vec[2]);
-        rgb
     }
 }
 
