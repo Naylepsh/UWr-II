@@ -8,15 +8,50 @@ function createCanvas() {
   return canvas;
 }
 
+let animationId = null;
+
+const isPaused = () => {
+  return animationId === null;
+};
+
+const playPauseButton = document.getElementById("play-pause");
+
+const play = () => {
+  playPauseButton.textContent = "⏸";
+  renderLoop();
+};
+
+const pause = () => {
+  playPauseButton.textContent = "▶";
+  cancelAnimationFrame(animationId);
+  animationId = null;
+};
+
+playPauseButton.addEventListener("click", event => {
+  if (isPaused()) {
+    play();
+  } else {
+    pause();
+  }
+});
+
 let canvas = createCanvas();
 let ctx = canvas.getContext("2d");
 let fractal = Mandelbrot.new(canvas.width, canvas.height);
-let image = fractal.to_image(200, 2.0, 1.5);
-ctx.putImageData(image, 0, 0);
-// wasm.draw(200);
-// for (let magnificationFactor = 200; magnificationFactor < 20000; magnificationFactor += 50) {
-//   setTimeout(() => {
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     draw(magnificationFactor);
-//   }, 3000);
-// }
+
+let magnificationFactor = 200;
+let panX = 1.0;
+let panY = 0.3;
+
+const renderLoop = () => {
+  let p1 = performance.now();
+  let image = fractal.to_image(magnificationFactor, panX, panY);
+  ctx.putImageData(image, 0, 0);
+  
+  magnificationFactor += 2;
+  let p2 = performance.now();
+  console.log(p2 - p1,'ms');
+  animationId = requestAnimationFrame(renderLoop);
+};
+
+play();
