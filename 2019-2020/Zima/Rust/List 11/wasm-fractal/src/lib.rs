@@ -16,19 +16,20 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 #[wasm_bindgen]
 pub struct Mandelbrot {
     width: u32,
-    height: u32
+    height: u32,
+    max_iter: u32,
 }
 
 #[wasm_bindgen]
 impl Mandelbrot {
-    pub fn new(width: u32, height: u32) -> Mandelbrot {
-        Mandelbrot { width, height }
+    pub fn new(width: u32, height: u32, max_iter: u32) -> Mandelbrot {
+        Mandelbrot { width, height, max_iter }
     }
 
-    fn contains(x:f32, y:f32) -> u32 {
+    fn contains(&self, x:f32, y:f32) -> u32 {
         let mut real_component = x;
         let mut imaginary_component = y;
-        let max_iter = 100;
+        let max_iter = self.max_iter;
     
         for i in 0..max_iter {
             let temp_real_component = real_component * real_component
@@ -51,7 +52,8 @@ impl Mandelbrot {
         for (x, y, pixel) in image.enumerate_pixels_mut() {
             let pos_x = x as f32 / (magnification_factor as f32) - pan_x;
             let pos_y = y as f32 / (magnification_factor as f32) - pan_y;
-            let belongs_to_set = Mandelbrot::contains(pos_x, pos_y);
+            // let belongs_to_set = Mandelbrot::contains(pos_x, pos_y);
+            let belongs_to_set = self.contains(pos_x, pos_y);
 
             if belongs_to_set == 0 {
                 *pixel = image::Rgba([0, 0, 0, 255]);

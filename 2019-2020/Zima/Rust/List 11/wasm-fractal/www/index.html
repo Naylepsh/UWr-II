@@ -3,10 +3,22 @@
   <head>
     <meta charset="utf-8">
     <title>Hello wasm-pack!</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
     <button id="play-pause"></button>
+    <button id="reset">Reset</button>
+    <label for="panX">X Offset</label>
+    <input type="number" name="panX" id="panX">
+    <label for="panY">Y Offset</label>
+    <input type="number" name="panY" id="panY">
+    <label for="initialMagnification">Initial Magnification</label>
+    <input type="number" name="initialMagnification" id="initialMagnification">
+    <label for="maxIter">Max Cointainment Iterations</label>
+    <input type="number" name="maxIter" id="maxIter">
+    <div>
+      <canvas></canvas>
+    </div>
     <script src="./bootstrap.js"></script>
   </body>
 </html>
