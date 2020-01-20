@@ -22,15 +22,15 @@ const pause = () => {
 };
 
 const renderLoop = () => {
-  let p1 = performance.now();
+  // let p1 = performance.now();
   let image = fractal.to_image(magnificationFactor, panX, panY);
   ctx.putImageData(image, 0, 0);
   
   magnificationFactor += factorIncrease;
   if (factorIncrease < 10000) {
-    factorIncrease += 1;
+    factorIncrease += 2;
   }
-  console.log(performance.now() - p1, magnificationFactor);
+  // console.log(performance.now() - p1);
   animationId = requestAnimationFrame(renderLoop);
 };
 
@@ -52,7 +52,7 @@ const reset = (event) => {
   magnificationFactor = initMagnificationValue ? initMagnificationValue : 200;
   maxIter = maxIterValue ? maxIterValue : 50;
   factorIncrease = 1;
-  fractal = Mandelbrot.new(canvas.width, canvas.height, maxIter);
+  // fractal = Mandelbrot.new(canvas.width, canvas.height, maxIter);
   magnificationFactor = 200;
 }
 

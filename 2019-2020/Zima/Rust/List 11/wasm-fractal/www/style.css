@@ -1,3 +1,7 @@
 #play-pause {
   display: inline-block;
 }
+
+input {
+  width: 75px;
+}
