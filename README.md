@@ -15,7 +15,7 @@ Only subjects with programmable exercises are listed (for obvious reasons).
 * Kurs WWW (WWW course)
 
 ## TERM IV
-* Architektury systemów komputerowym (Architectures of computer systems)
+* Architektury systemów komputerowych (Architectures of computer systems)
 * Algorytmy i struktury danych (Algorithms and data structures)
 
 ## TERM V
