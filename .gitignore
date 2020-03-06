@@ -79,4 +79,4 @@ wasm-pack.log
 
 # dotnet things
 obj/
-.csproj
+*.csproj
