@@ -23,3 +23,9 @@ Only subjects with programmable exercises are listed (for obvious reasons).
 * Rozszerzony Python (Intermediate Python)
 * Kurs języka Rust (Rust language course)
 * Wybrane elementy praktyki projektowania oprogramowania (Elements of practical software development)
+
+## TERM VI
+* Kurs programowania pod Windows w technologii .NET (Programming for Windows in .NET)
+* Projektowanie obiektowe oprogramowania (Object-oriented software design)
+* Sieci Komputerowe (Computer networks)
+* Systemy Komputerowe (Computer systems)
