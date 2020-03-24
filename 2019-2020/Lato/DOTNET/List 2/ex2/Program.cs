@@ -23,8 +23,6 @@ namespace ex2
         }
     }
 
-    // Binary Tree using IEnumerable
-
     public class BinaryTreeNode<T> : IEnumerable {
         BinaryTreeNode<T> _leftChild;
         BinaryTreeNode<T> _rightChild;
@@ -148,8 +146,5 @@ namespace ex2
                 this._curr = this._root;
             }
         }
-
     }
-
-
 }
