@@ -6,7 +6,7 @@ namespace ex1
 {
     class Program
     {
-        const int NUMBER_OF_ITEMS = 1000;
+        const int numberOfItems = 1000;
         static void Main(string[] args)
         {
             if (args.Length != 1) {
@@ -16,9 +16,9 @@ namespace ex1
             int testNumber = Int16.Parse(args[0]);
 
             List<int> list = new List<int>();
-            ListUtils.FillList(list, NUMBER_OF_ITEMS);
+            ListUtils.FillList(list, numberOfItems);
             Dictionary<int, int> dict = new Dictionary<int, int>();
-            DictUtils.FillDict(dict, NUMBER_OF_ITEMS);
+            DictUtils.FillDict(dict, numberOfItems);
 
             DateTime start = DateTime.Now;
             switch (testNumber) {
@@ -36,40 +36,40 @@ namespace ex1
         }
 
         static void FillList() {
-            Console.WriteLine("Filling list with {0} items", NUMBER_OF_ITEMS);
+            Console.WriteLine("Filling list with {0} items", numberOfItems);
             List<int> list = new List<int>();
-            ListUtils.FillList(list, NUMBER_OF_ITEMS);
+            ListUtils.FillList(list, numberOfItems);
         }
 
         static void RemoveFromList(List<int> list) {
-            Console.WriteLine("Removing {0} items from list", NUMBER_OF_ITEMS);
-            ListUtils.RemoveFromList(list, NUMBER_OF_ITEMS);
+            Console.WriteLine("Removing {0} items from list", numberOfItems);
+            ListUtils.RemoveFromList(list, numberOfItems);
         }
 
         static void RemoveFromListBackwards(List<int> list) {
-            Console.WriteLine("Removing {0} items from list backwards", NUMBER_OF_ITEMS);
-            ListUtils.RemoveFromListBackwards(list, NUMBER_OF_ITEMS);
+            Console.WriteLine("Removing {0} items from list backwards", numberOfItems);
+            ListUtils.RemoveFromListBackwards(list, numberOfItems);
         }
 
         static void SearchInList(List<int> list) {
-            Console.WriteLine("Searching for {0} items in list", NUMBER_OF_ITEMS);
-            ListUtils.SearchInList(list, NUMBER_OF_ITEMS);
+            Console.WriteLine("Searching for {0} items in list", numberOfItems);
+            ListUtils.SearchInList(list, numberOfItems);
         }
 
         static void FillDict() {
-            Console.WriteLine("Filling dict with {0} items", NUMBER_OF_ITEMS);
+            Console.WriteLine("Filling dict with {0} items", numberOfItems);
             Dictionary<int, int> dict = new Dictionary<int, int>();
-            DictUtils.FillDict(dict, NUMBER_OF_ITEMS);
+            DictUtils.FillDict(dict, numberOfItems);
         }
 
         static void RemoveFromDict(Dictionary<int, int> dict) {
-            Console.WriteLine("Removing {0} items from dict", NUMBER_OF_ITEMS);
-            DictUtils.RemoveFromDict(dict, NUMBER_OF_ITEMS);
+            Console.WriteLine("Removing {0} items from dict", numberOfItems);
+            DictUtils.RemoveFromDict(dict, numberOfItems);
         }
 
         static void SearchInDict(Dictionary<int, int> dict) {
-            Console.WriteLine("Searching for {0} items in dict", NUMBER_OF_ITEMS);
-            DictUtils.SearchInDict(dict, NUMBER_OF_ITEMS);
+            Console.WriteLine("Searching for {0} items in dict", numberOfItems);
+            DictUtils.SearchInDict(dict, numberOfItems);
         }
     }
 
