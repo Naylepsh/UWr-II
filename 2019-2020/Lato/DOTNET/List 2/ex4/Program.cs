@@ -13,15 +13,14 @@ namespace ex4
             }
 
             List<string> stringList = ListHelper.ConvertAll(
-                intList, new Converter<int, string>(Foo));
+                intList, x => "str(" + x.ToString() + "}");
             Console.Write("ConvertAll===");
             foreach (var x in stringList) {
                 Console.Write("{0}, ", x);
             }
             Console.WriteLine();
 
-            List<int> foundItems = ListHelper.FindAll(
-                intList, new Predicate<int>(IsEven));
+            List<int> foundItems = ListHelper.FindAll(intList, x => x % 2 == 0);
             Console.Write("FindAll(isEven)===");
             foreach (var x in foundItems) {
                 Console.Write("{0}, ", x);
@@ -29,31 +28,19 @@ namespace ex4
             Console.WriteLine();
 
             Console.Write("ForEach(Print)===");
-            ListHelper.ForEach(intList, new Action<int>(Print));
+            ListHelper.ForEach(intList, x => { Console.Write("{0}, ", x); });
             Console.WriteLine();
 
             Console.Write("RemoveAll(StartsWith\"s\")===");
-            int itemsRemoved = ListHelper.RemoveAll(stringList, new Predicate<string>(x => x.StartsWith("s") ));
+            int itemsRemoved = ListHelper.RemoveAll(stringList, x => x.StartsWith("s"));
             Console.WriteLine("{0}", itemsRemoved);
 
             intList.Reverse();
             Console.Write("Sort===");
-            ListHelper.Sort(intList, new Comparison<int>( (x, y) => x.CompareTo(y) ));
+            ListHelper.Sort(intList, (x, y) => x.CompareTo(y) );
             foreach (var x in intList) {
                 Console.Write("{0}, ", x);
             }
-        }
-
-        static string Foo(int x) {
-            return "str("+x.ToString()+")";
-        }
-
-        static bool IsEven(int x) {
-            return x % 2 == 0;
-        }
-
-        static void Print(int x) {
-            Console.Write("{0}, ", x);
         }
     }
 
