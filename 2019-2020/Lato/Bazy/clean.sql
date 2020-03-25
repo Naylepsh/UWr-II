@@ -1,0 +1,1 @@
+select 'drop table if exists "' || tablename || '" cascade;' from pg_tables where tablename NOT LIKE 'pg%' and tablename NOT LIKE 'sql%';
