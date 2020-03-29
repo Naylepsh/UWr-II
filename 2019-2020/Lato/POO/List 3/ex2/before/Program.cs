@@ -1,13 +1,5 @@
 ﻿using System;
 
-/*
-public class ReportPrinter {
-    public string GetData();
-    public void FormatDocument();
-    public void PrintReport();
-}
-*/
-
 namespace before
 {
   class Program
