@@ -12,11 +12,6 @@ namespace Ex_2
   {
     static void Main(string[] args)
     {
-      ReadFromFile();
-    }
-
-    static void ReadFromFile()
-    {
       string[] lines = System.IO.File.ReadAllLines(@".\numbers.txt");
       LinqMethods(lines);
       Console.WriteLine();
