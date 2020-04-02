@@ -49,7 +49,7 @@
 ;; zad 2 w sqrt.rkt
 
 ;; zad 3 -- KONTRAKT ZALEZNY
-(define/contract (my-filter f xs)
+(define/contract (my-filter p xs)
   (and/c (let ([a (new-∀/c 'a)])
            (-> (-> a boolean?) (listof a) (listof a)))
          (->i ([p (-> any/c boolean?)]
@@ -59,8 +59,8 @@
               (andmap p result)))
   (cond
     [(null? xs) null]
-    [(f (car xs)) (cons (car xs) (my-filter f (cdr xs)))]
-    [else         (my-filter f (cdr xs))]))
+    [(p (car xs)) (cons (car xs) (my-filter p (cdr xs)))]
+    [else         (my-filter p (cdr xs))]))
 
 
 ;; zad 4
@@ -91,5 +91,3 @@
   (and (and (= (oper neutral x) x) (= (oper x neutral) x)) ;; (equal? (oper xs neutral) xs)
        (= (oper (oper x y) z) ;; (equal? (oper (oper xs ys) zs) (oper xs (oper ys zs)))
           (oper x (oper y z))))))
-
-

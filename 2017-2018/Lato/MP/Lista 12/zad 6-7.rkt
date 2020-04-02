@@ -8,8 +8,6 @@
       (cons null (map (lambda ([x : (Listof A)]) (cons (car xs) x)) (prefixes (cdr xs))))))
 
 ;; zad 7
-
-
 (define-type Leaf 'leaf)
 (define-type (Node A B) (List 'node A (Listof B)))
 (define-type (Tree A) (U Leaf (Node A (Tree A))))
