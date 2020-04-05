@@ -14,7 +14,7 @@ namespace Ex_3
     public class Airport
     {
         private int _capacity;
-        private List<Plane> _ready    = new List<Plane>();
+        private List<Plane> _ready = new List<Plane>();
         private List<Plane> _released = new List<Plane>();
 
         public Airport(int capacity)
