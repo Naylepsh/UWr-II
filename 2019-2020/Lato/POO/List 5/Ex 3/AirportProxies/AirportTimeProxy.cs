@@ -3,7 +3,7 @@ using AirportPool;
 
 namespace AirportProxies
 {
-    public class AirportTimeProxy
+    public class AirportTimeProxy : IAirport
     {
         private const int OPENING_HOUR = 8;
         private const int CLOSING_HOUR = 22;

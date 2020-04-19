@@ -8,7 +8,13 @@ namespace AirportPool
 
     }
 
-    public class Airport
+    public interface IAirport
+    {
+        Plane AquirePlane();
+        void ReleasePlane(Plane plane);
+    }
+
+    public class Airport : IAirport
     {
         private int _capacity;
         private List<Plane> _ready = new List<Plane>();

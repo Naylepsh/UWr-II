@@ -3,7 +3,7 @@ using AirportPool;
 
 namespace AirportProxies
 {
-    public class AirportLoggingProxy
+    public class AirportLoggingProxy : IAirport
     {
         private Airport _airport;
 

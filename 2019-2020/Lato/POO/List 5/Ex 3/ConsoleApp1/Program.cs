@@ -9,8 +9,8 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             int capacity = 1;
-            AirportTimeProxy airportTimed = new AirportTimeProxy(capacity);
-            AirportLoggingProxy airportLogged = new AirportLoggingProxy(capacity);
+            IAirport airportTimed = new AirportTimeProxy(capacity);
+            IAirport airportLogged = new AirportLoggingProxy(capacity);
             Plane plane;
 
             try
