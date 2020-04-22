@@ -67,6 +67,10 @@ sessions/
 # tests
 tests/
 
+# vs
+.vs/
+packages/
+
 # vscode
 .vscode/
 
