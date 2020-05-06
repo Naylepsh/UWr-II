@@ -1,5 +1,3 @@
--- 18, SP-GIST, box_ops, @> -- Sebastian Kondraciuk, 298451
-
 -- Seed database
 DROP TABLE IF EXISTS boxes;
 CREATE TABLE boxes(b BOX);
