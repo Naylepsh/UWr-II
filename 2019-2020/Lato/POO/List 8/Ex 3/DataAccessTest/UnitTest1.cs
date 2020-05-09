@@ -1,18 +1,18 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ex_2;
+using Ex_3;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
 namespace DataAccessTest
 {
-    public class DatabaseColumnValueSummer : DataAccessHandler
+    public class DBSumColumnStrategy : IDataAccessStrategy<int>
     {
         private Dictionary<string, List<int>> _data;
-        public int Result { get; set; }
+        private int _result;
 
-        protected override void Close()
+        public void Close()
         {
             if (_data == null)
             {
@@ -22,7 +22,12 @@ namespace DataAccessTest
             _data = null;
         }
 
-        protected override void Open()
+        public int GetResult()
+        {
+            return _result;
+        }
+
+        public void Open()
         {
             if (_data != null)
             {
@@ -32,17 +37,17 @@ namespace DataAccessTest
             _data = new Dictionary<string, List<int>>();
         }
 
-        protected override void ProcessData()
+        public void ProcessData()
         {
             if (_data == null)
             {
                 throw new Exception("Connection to database is not established");
             }
 
-            Result = _data["column1"].Sum();
+            _result = _data["column1"].Sum();
         }
 
-        protected override void ReadData()
+        public void ReadData()
         {
             if (_data == null)
             {
@@ -56,12 +61,12 @@ namespace DataAccessTest
         }
     }
 
-    public class XMLLongestNodeNameFinder : DataAccessHandler
+    public class XMLFindLongestNodeNameStrategy : IDataAccessStrategy<int>
     {
         private XmlDocument _document;
-        public int Result { get; set; }
+        private int _result;
 
-        protected override void Close()
+        public void Close()
         {
             if (_document == null)
             {
@@ -71,7 +76,7 @@ namespace DataAccessTest
             _document = null;
         }
 
-        protected override void Open()
+        public void Open()
         {
             if (_document != null)
             {
@@ -81,7 +86,7 @@ namespace DataAccessTest
             _document = new XmlDocument();
         }
 
-        protected override void ProcessData()
+        public void ProcessData()
         {
             if (_document == null)
             {
@@ -90,7 +95,7 @@ namespace DataAccessTest
 
             var root = _document.FirstChild;
 
-            Result = LongestName(root); 
+            _result = LongestName(root); 
         }
 
         private int LongestName(XmlNode node)
@@ -111,7 +116,7 @@ namespace DataAccessTest
             return longest;
         }
 
-        protected override void ReadData()
+        public void ReadData()
         {
             if (_document == null)
             {
@@ -130,29 +135,36 @@ namespace DataAccessTest
                 "  </book> \n" +
                 "</books>");
         }
+
+        public int GetResult()
+        {
+            return _result;
+        }
     }
 
     [TestClass]
     public class UnitTest1
     {
         [TestMethod]
-        public void CalculateSumOfValuesOfConcreteColumnInDatabase()
+        public void SumInConcreteColumnInDatabase()
         {
-            var valuesSummer = new DatabaseColumnValueSummer();
+            var strategy = new DBSumColumnStrategy();
+            var dataAccessHandler = new DataAccessHandler<int>(strategy);
 
-            valuesSummer.Execute();
+            dataAccessHandler.Execute();
 
-            Assert.AreEqual(valuesSummer.Result, 1 + 2 + 3 + 4);
+            Assert.AreEqual(dataAccessHandler.Result, 1 + 2 + 3 + 4);
         }
 
         [TestMethod]
-        public void FindLongestNameInXMLDocument()
+        public void FindLongestNodeNameInXMLDocument()
         {
-            var longestNameFinder = new XMLLongestNodeNameFinder();
+            var strategy = new XMLFindLongestNodeNameStrategy();
+            var dataAccessHandler = new DataAccessHandler<int>(strategy);
 
-            longestNameFinder.Execute();
+            dataAccessHandler.Execute();
 
-            Assert.AreEqual(longestNameFinder.Result, 5);
+            Assert.AreEqual(dataAccessHandler.Result, 5);
         }
     }
 }
