@@ -2,6 +2,8 @@
 
 namespace Ex_3
 {
+    // Concrete mockup classes (XML and Database) are in the test file
+
     public interface IDataAccessStrategy<T>
     {
         void Open();

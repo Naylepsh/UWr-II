@@ -2,8 +2,7 @@
 
 namespace Ex_2
 {
-    // Concrete classes examples (XML and Database) are stored in test file,
-    // due to them being mockups.
+    // Concrete mockup classes (XML and Database) are in the test file
 
     public abstract class DataAccessHandler
     {
