@@ -1,0 +1,26 @@
+﻿<Window x:Class="Ex_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ex_2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="611.881" Width="387.13">
+    <Grid Margin="0,0,0,0">
+        <ListView Name="Contacts" HorizontalAlignment="Left" Height="437" Margin="20,20,0,0" VerticalAlignment="Top" Width="336" SelectionChanged="ListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Username" Width="160" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Email" Width="170" DisplayMemberBinding="{Binding Email}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StatusBar HorizontalAlignment="Left" Height="42" Margin="0,533,0,-14" VerticalAlignment="Top" Width="379">
+            <StatusBarItem>
+                <TextBlock Name="Status" Text="No contacts present." Margin="10,10,10,10"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <ProgressBar Name="ProgressBar" HorizontalAlignment="Left" Height="43" Margin="21,472,0,0" VerticalAlignment="Top" Width="171"/>
+        <Button Content="Load Contacts" HorizontalAlignment="Left" Height="43" Margin="214,472,0,0" VerticalAlignment="Top" Width="142" Click="Button_Click"/>
+    </Grid>
+</Window>
