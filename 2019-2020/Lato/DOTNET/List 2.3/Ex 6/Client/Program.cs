@@ -10,25 +10,25 @@ namespace Client
     {
         private static void Main(string[] args)
         {
-            TcpClient client;
-            try
-            {
-                client = new TcpClient("localhost", 8080);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.ReadKey();
-                return;
-            }
-
-            Console.WriteLine("Connection established");
-            Stream stream = client.GetStream();
-
-            BinaryFormatter format = new BinaryFormatter();
+            BinaryFormatter formatter = new BinaryFormatter();
 
             while (true)
             {
+                TcpClient client;
+                try
+                {
+                    client = new TcpClient("localhost", 8080);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    return;
+                }
+
+                Console.WriteLine("Connection established");
+                Stream stream = client.GetStream();
+
                 Console.WriteLine("Enter complex number in following format: real imaginary");
                 string line = Console.ReadLine();
                 double[] data;
@@ -50,7 +50,8 @@ namespace Client
                 Complex complex = new Complex { Real = data[0], Imaginary = data[1] };
 
                 Console.WriteLine($"Sending complex = {complex.Real} + {complex.Imaginary}i");
-                format.Serialize(stream, complex);
+                formatter.Serialize(stream, complex);
+                client.Close();
             }
         }
     }

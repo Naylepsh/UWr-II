@@ -1,5 +1,6 @@
 ﻿using Ex_6;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -10,37 +11,42 @@ namespace Server
     {
         private static void Main(string[] args)
         {
-            BinaryFormatter format = new BinaryFormatter();
+            BinaryFormatter formatter = new BinaryFormatter();
             IPAddress address = IPAddress.Parse("127.0.0.1");
             TcpListener server = new TcpListener(address, 8080);
-            try
+
+            using (var fs = new FileStream("server-output.txt", FileMode.Create, FileAccess.Write))
             {
-                server.Start();
-                TcpClient client;
-                while (true)
+                try
                 {
-                    Console.WriteLine("Waiting for connection...");
-                    client = server.AcceptTcpClient();
-                    Console.WriteLine("Client connected");
+                    server.Start();
+                    TcpClient client;
+                    while (true)
+                    {
+                        Console.WriteLine("Waiting for connection...");
+                        client = server.AcceptTcpClient();
+                        Console.WriteLine("Client connected");
 
-                    NetworkStream stream = client.GetStream();
+                        NetworkStream stream = client.GetStream();
 
-                    Complex complex = (Complex)format.Deserialize(stream);
+                        Complex complex = (Complex)formatter.Deserialize(stream);
 
-                    Console.WriteLine($"Complex number received: {complex.Real} + {complex.Imaginary}i");
-                    client.Close();
+                        Console.WriteLine($"Complex number received: {complex.Real} + {complex.Imaginary}i");
+                        formatter.Serialize(fs, complex);
+                        client.Close();
+                    }
                 }
-            }
-            catch (SocketException e)
-            {
-                Console.WriteLine("SocketException: {0}", e);
-            }
-            finally
-            {
-                server.Stop();
-            }
+                catch (SocketException e)
+                {
+                    Console.WriteLine("SocketException: {0}", e);
+                }
+                finally
+                {
+                    server.Stop();
+                }
 
-            Console.Read();
+                Console.Read();
+            }
         }
     }
 }
