@@ -18,7 +18,9 @@ namespace Ex_11
             var compiled = Compile(code);
             var result = Run(compiled);
 
+            Console.WriteLine("Result:");
             Console.WriteLine(result);
+            Console.ReadKey();
         }
 
         static string GetUserInput()
