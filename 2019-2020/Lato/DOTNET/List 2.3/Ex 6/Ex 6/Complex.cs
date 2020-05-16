@@ -2,7 +2,7 @@
 
 namespace Ex_6
 {
-    [Serializable]
+    [Serializable()]
     public class Complex
     {
         public double Real { get; set; }

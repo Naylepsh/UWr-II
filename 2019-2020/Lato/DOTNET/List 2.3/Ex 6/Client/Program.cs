@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters.Soap;
 
 namespace Client
 {
@@ -10,7 +10,7 @@ namespace Client
     {
         private static void Main(string[] args)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
+            SoapFormatter formatter = new SoapFormatter();
 
             while (true)
             {
@@ -34,7 +34,7 @@ namespace Client
                 double[] data;
                 try
                 {
-                    data = Array.ConvertAll<string, double>(line.Split(" "), double.Parse);
+                    data = Array.ConvertAll<string, double>(line.Split(' '), double.Parse);
                     if (data.Length != 2)
                     {
                         Console.WriteLine("Invalid line");
