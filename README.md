@@ -1,6 +1,6 @@
 # University Stuff
 
-Only subjects with programmable exercises are listed (for obvious reasons).
+<s>Only subjects with programmable exercises are listed (for obvious reasons).</s>
 
 ## Term I
 
