@@ -62,6 +62,8 @@ namespace Ex_3
             {
                 Console.WriteLine(ex.Message);
             }
+
+            Console.ReadKey();
         }
 
         private static void DisplayAllStudents(Example context)
@@ -73,7 +75,7 @@ namespace Ex_3
                     student.Imie,
                     student.Nazwisko,
                     student.DataUrodzenia,
-                    student.Miejscowosc));
+                    student.Miejscowosc.Nazwa));
             }
         }
 
@@ -95,6 +97,7 @@ namespace Ex_3
                 };
                 miejscowosc.Student.Add(student);
                 context.Student.InsertOnSubmit(student);
+                context.Miejscowosc.InsertOnSubmit(miejscowosc);
                 context.SubmitChanges();
                 i++;
             }

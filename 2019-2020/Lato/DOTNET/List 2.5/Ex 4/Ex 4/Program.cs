@@ -72,6 +72,8 @@ namespace Ex_4
             {
                 Console.WriteLine(ex.Message);
             }
+
+            Console.ReadKey();
         }
 
         private static void DisplayAllStudents(TownStudentContext context)
@@ -83,7 +85,7 @@ namespace Ex_4
                     student.Name,
                     student.Surname,
                     student.BirthDate,
-                    student.Town));
+                    student.Town.Name));
             }
         }
 
