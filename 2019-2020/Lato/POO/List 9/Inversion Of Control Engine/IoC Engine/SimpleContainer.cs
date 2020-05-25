@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Dependency_Injection_Engine
+namespace InversionOfControlEngine
 {
     public class SimpleContainer
     {
@@ -26,13 +26,13 @@ namespace Dependency_Injection_Engine
         public void RegisterType<T>(bool Singleton) where T : class
         {
             var policy = GetPolicy<T>(Singleton);
-            _registeredTypes.Add(typeof(T), policy);
+            _registeredTypes[typeof(T)] = policy;
         }
 
         public void RegisterType<From, To>(bool Singleton) where To : From
         {
             var policy = GetPolicy<To>(Singleton);
-            _registeredTypes.Add(typeof(From), policy);
+            _registeredTypes[typeof(From)] =  policy;
         }
 
         public T Resolve<T>()

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dependency Injection Engine", "Dependency Injection Engine\Dependency Injection Engine.csproj", "{A4F54ADD-CF93-4323-9D78-EFCF370C6D2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inversion of Control Engine", "IoC Engine\Inversion of Control Engine.csproj", "{A4F54ADD-CF93-4323-9D78-EFCF370C6D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIEngineTest", "DIEngineTest\DIEngineTest.csproj", "{50B33528-54FA-4C1C-AFE4-5BBE7B0D6D65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCETest", "IoC Engine Tests\IoCETest.csproj", "{50B33528-54FA-4C1C-AFE4-5BBE7B0D6D65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
-﻿using Dependency_Injection_Engine;
+﻿using InversionOfControlEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace DIEngineTest
+namespace IoCETest
 {
     [TestClass]
     public class UnitTest1
@@ -20,6 +20,10 @@ namespace DIEngineTest
         }
 
         private class Bar : IBar
+        {
+        }
+
+        private class AnotherBar : IBar
         {
         }
 
@@ -108,6 +112,18 @@ namespace DIEngineTest
             {
                 container.Resolve<Foo>();
             });
+        }
+
+        [TestMethod]
+        public void Should_AllowReregistration_WhenRegisteringTheSameTypeTwice()
+        {
+            var container = new SimpleContainer();
+            container.RegisterType<IBar, Bar>(false);
+            container.RegisterType<IBar, AnotherBar>(false);
+
+            IBar bar = container.Resolve<IBar>();
+
+            Assert.IsInstanceOfType(bar, typeof(AnotherBar));
         }
     }
 }

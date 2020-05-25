@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Dependency_Injection_Engine
+namespace InversionOfControlEngine
 {
     public abstract class LifecyclePolicy
     {
