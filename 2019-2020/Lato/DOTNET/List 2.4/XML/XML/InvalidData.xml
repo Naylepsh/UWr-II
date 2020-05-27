@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Students xmlns="MyData" 
+          xmlns:MyValidator='http://www.w3.org/2001/XMLSchema-instance' 
+          MyValidator:schemaLocation='MyData data.xsd'>
+<Student>
+    <Name>John</Name>
+    <Surname>Doe</Surname>
+    <BirthDate>1990-11-10</BirthDate>
+    <Address type="primary">
+      <City>Cambridge</City>
+      <Street>Ridge St</Street>
+    </Address>
+    <Address>
+      <City>Cambridge</City>
+      <Street>High St</Street>
+    </Address>
+    <Courses>
+      <Subject>
+        <Name>6.0001 Introduction to Computer Science and Programming in Python</Name>
+        <Grade>3.0</Grade>
+      </Subject>
+      <Subject>
+        <Name>6.0002 Introduction to Computational Thinking and Data Science</Name>
+        <Grade>3.0</Grade>
+      </Subject>
+    </Courses>
+  </Student>
+
+  <Student>
+    <Index>211234</Index>
+    <Name>Jane</Name>
+    <Surname>Doe</Surname>
+    <BirthDate>1991-12-01</BirthDate>
+    <Address type="primary">
+      <City>Cambridge</City>
+      <Street>Lockeland Rd</Street>
+    </Address>
+    <Address>
+      <City>Los Angeles</City>
+      <Street>Sawyer St</Street>
+    </Address>
+  </Student>
+</Students>

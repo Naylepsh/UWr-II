@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:MyValidator="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="MyData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Students">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="Student">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Index" type="xs:unsignedInt" />
+              <xs:element name="Name" type="xs:string" />
+              <xs:element name="Surname" type="xs:string" />
+              <xs:element name="BirthDate" type="xs:date" />
+              <xs:element maxOccurs="unbounded" name="Address">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="City" type="xs:string" />
+                    <xs:element name="Street" type="xs:string" />
+                  </xs:sequence>
+                  <xs:attribute name="type" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Courses">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="Subject">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Name" type="xs:string" />
+                          <xs:element name="Grade" type="xs:decimal" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
