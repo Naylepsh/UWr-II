@@ -21,6 +21,25 @@ namespace InversionOfControlEngine
             _type = type;
         }
 
+        public virtual object Resolve(
+            Dictionary<Type, LifecyclePolicy> policies,
+            Dictionary<Type, bool> typesNotResolvedYet = null)
+        {
+            if (typesNotResolvedYet == null)
+            {
+                typesNotResolvedYet = new Dictionary<Type, bool>();
+            }
+            typesNotResolvedYet.Add(_type, true);
+
+            var constructor = GetConstructor();
+            var resolvedParameters = ResolveParameters(constructor, policies, typesNotResolvedYet);
+
+            typesNotResolvedYet.Remove(_type);
+
+            var instance = constructor.Invoke(resolvedParameters.ToArray());
+            return instance;
+        }
+
         private ConstructorInfo GetConstructor()
         {
             var constructors = _type
@@ -40,41 +59,31 @@ namespace InversionOfControlEngine
             var resolvedParameters = new List<object>();
             foreach (var parameter in constructor.GetParameters())
             {
-                Type parameterType = parameter.ParameterType;
-                if (typesNotResolvedYet.ContainsKey(parameterType))
-                {
-                    throw new ResolveException("Dependancy cycle found");
-                }
-
-                if (!policies.ContainsKey(parameterType))
-                {
-                    throw new ResolveException($"{parameterType} not registered");
-                }
-
-                object resolved = policies[parameterType].Resolve(policies, typesNotResolvedYet);
+                object resolved = ResolveParameter(parameter, policies, typesNotResolvedYet);
                 resolvedParameters.Add(resolved);
             }
 
             return resolvedParameters;
         }
 
-        public virtual object Resolve(
+        private object ResolveParameter(
+            ParameterInfo parameter,
             Dictionary<Type, LifecyclePolicy> policies,
-            Dictionary<Type, bool> typesNotResolvedYet = null)
+            Dictionary<Type, bool> typesNotResolvedYet)
         {
-            if (typesNotResolvedYet == null)
+            Type parameterType = parameter.ParameterType;
+            if (typesNotResolvedYet.ContainsKey(parameterType))
             {
-                typesNotResolvedYet = new Dictionary<Type, bool>();
+                throw new ResolveException("Dependancy cycle found");
             }
-            typesNotResolvedYet.Add(_type, true);
 
-            var constructor = GetConstructor();
-            var resolvedParameters = ResolveParameters(constructor, policies, typesNotResolvedYet);
+            if (!policies.ContainsKey(parameterType))
+            {
+                throw new ResolveException($"{parameterType} not registered");
+            }
 
-            typesNotResolvedYet.Remove(_type);
-
-            var instance = constructor.Invoke(resolvedParameters.ToArray());
-            return instance;
+            object resolved = policies[parameterType].Resolve(policies, typesNotResolvedYet);
+            return resolved;
         }
     }
 
