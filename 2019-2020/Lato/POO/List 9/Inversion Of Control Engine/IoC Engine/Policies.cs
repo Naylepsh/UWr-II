@@ -23,11 +23,16 @@ namespace InversionOfControlEngine
         {
         }
 
+        public SingletonLifecyclePolicy(Type type, object instance) : base(type)
+        {
+            _instances[type] = instance;
+        }
+
         public override object Resolve()
         {
             if (!_instances.ContainsKey(_type))
             {
-                _instances.Add(_type, Activator.CreateInstance(_type));
+                _instances[_type] = Activator.CreateInstance(_type);
             }
 
             return _instances[_type];

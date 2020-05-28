@@ -125,5 +125,59 @@ namespace IoCETest
 
             Assert.IsInstanceOfType(bar, typeof(AnotherBar));
         }
+
+        [TestMethod]
+        public void Should_AllowRegistrationOfInstance()
+        {
+            Foo foo = new Foo();
+            var container = new SimpleContainer();
+            container.RegisterInstance<Foo>(foo);
+
+            Foo acquired = container.Resolve<Foo>();
+
+            Assert.AreEqual(foo, acquired);
+        }
+
+        [TestMethod]
+        public void Should_DistinguishBetweenInstances_WhenComparingResolvedToNewInstance()
+        {
+            Foo foo = new Foo();
+            var container = new SimpleContainer();
+            container.RegisterInstance<Foo>(foo);
+
+            Foo acquired = container.Resolve<Foo>();
+            Foo otherInstance = new Foo();
+
+            Assert.AreNotEqual(otherInstance, acquired);
+        }
+
+        [TestMethod]
+        public void Should_ChangeRegisteredInstance_WhenRegisteringNewInstance()
+        {
+            Foo firstFoo = new Foo();
+            var container = new SimpleContainer();
+            container.RegisterInstance<Foo>(firstFoo);
+            Foo secondFoo = new Foo();
+            container.RegisterInstance<Foo>(secondFoo);
+
+            Foo acquired = container.Resolve<Foo>();
+
+            Assert.AreNotEqual(firstFoo, acquired);
+            Assert.AreEqual(secondFoo, acquired);
+        }
+
+        [TestMethod]
+        public void Should_OverrideSingletonPolicy_WhenRegisteringInstanceAfterPolicyWasRegistered()
+        {
+            var container = new SimpleContainer();
+            container.RegisterType<Foo>(true);
+            Foo firstFoo = container.Resolve<Foo>();
+            Foo foo = new Foo();
+            container.RegisterInstance<Foo>(foo);
+            Foo secondFoo = container.Resolve<Foo>();
+
+            Assert.AreEqual(foo, secondFoo);
+            Assert.AreNotEqual(foo, firstFoo);
+        }
     }
 }

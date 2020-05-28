@@ -35,6 +35,14 @@ namespace InversionOfControlEngine
             _registeredTypes[typeof(From)] =  policy;
         }
 
+        public void RegisterInstance<T>(T Instance)
+        {
+            // Registering an instance can be seen as registering a singleton policy with an instance already set
+            var type = typeof(T);
+            var policy = new SingletonLifecyclePolicy(type, Instance);
+            _registeredTypes[type] = policy;
+        }
+
         public T Resolve<T>()
         {
             if (!_registeredTypes.ContainsKey(typeof(T)))
