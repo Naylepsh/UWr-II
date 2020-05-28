@@ -51,6 +51,26 @@ namespace IoCETest
             }
         }
 
+        private class DependancyA
+        {
+            private DependancyB _b;
+
+            public DependancyA(DependancyB b)
+            {
+                _b = b;
+            }
+        }
+
+        private class DependancyB
+        {
+            private DependancyA _a;
+
+            public DependancyB(DependancyA a)
+            {
+                _a = a;
+            }
+        }
+
         [TestMethod]
         public void Should_CompareSameInstance_WhenUsingSingletonPolicy()
         {
@@ -238,7 +258,7 @@ namespace IoCETest
             var container = new SimpleContainer();
             container.RegisterType<Quux>(false);
 
-            Assert.ThrowsException<InvalidOperationException>(container.Resolve<Quux>);
+            Assert.ThrowsException<ResolveException>(container.Resolve<Quux>);
         }
 
         [TestMethod]
@@ -252,6 +272,17 @@ namespace IoCETest
             Quux acquired = container.Resolve<Quux>();
 
             Assert.AreEqual(x, acquired.X);
+        }
+
+        [TestMethod]
+        public void Should_ThrowException_WhenDependancyCycleIsFound()
+        {
+            var container = new SimpleContainer();
+            container.RegisterType<DependancyA>(false);
+            container.RegisterType<DependancyB>(false);
+
+            Assert.ThrowsException<ResolveException>(container.Resolve<DependancyA>);
+            Assert.ThrowsException<ResolveException>(container.Resolve<DependancyB>);
         }
     }
 }

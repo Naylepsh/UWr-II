@@ -1,9 +1,17 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace InversionOfControlEngine
 {
+    public class ResolveException : Exception
+    {
+        public ResolveException(string message) : base(message)
+        {
+        }
+    }
+
     public abstract class LifecyclePolicy
     {
         protected readonly Type _type;
@@ -13,7 +21,7 @@ namespace InversionOfControlEngine
             _type = type;
         }
 
-        public virtual object Resolve(Dictionary<Type, LifecyclePolicy> policies)
+        private ConstructorInfo GetConstructor()
         {
             var constructors = _type
                 .GetConstructors()
@@ -21,21 +29,49 @@ namespace InversionOfControlEngine
                 ;
 
             var constructor = constructors.First();
+            return constructor;
+        }
 
+        private List<object> ResolveParameters(
+            ConstructorInfo constructor,
+            Dictionary<Type, LifecyclePolicy> policies,
+            Dictionary<Type, bool> typesNotResolvedYet)
+        {
             var resolvedParameters = new List<object>();
             foreach (var parameter in constructor.GetParameters())
             {
-                try
+                Type parameterType = parameter.ParameterType;
+                if (typesNotResolvedYet.ContainsKey(parameterType))
                 {
-                    Type parameterType = parameter.ParameterType;
-                    object resolved = policies[parameterType].Resolve(policies);
-                    resolvedParameters.Add(resolved);
+                    throw new ResolveException("Dependancy cycle found");
                 }
-                catch (Exception e)
+
+                if (!policies.ContainsKey(parameterType))
                 {
-                    throw new InvalidOperationException("Could not resolve at least one of the constructors");
+                    throw new ResolveException($"{parameterType} not registered");
                 }
+
+                object resolved = policies[parameterType].Resolve(policies, typesNotResolvedYet);
+                resolvedParameters.Add(resolved);
             }
+
+            return resolvedParameters;
+        }
+
+        public virtual object Resolve(
+            Dictionary<Type, LifecyclePolicy> policies,
+            Dictionary<Type, bool> typesNotResolvedYet = null)
+        {
+            if (typesNotResolvedYet == null)
+            {
+                typesNotResolvedYet = new Dictionary<Type, bool>();
+            }
+            typesNotResolvedYet.Add(_type, true);
+
+            var constructor = GetConstructor();
+            var resolvedParameters = ResolveParameters(constructor, policies, typesNotResolvedYet);
+
+            typesNotResolvedYet.Remove(_type);
 
             var instance = constructor.Invoke(resolvedParameters.ToArray());
             return instance;
@@ -55,7 +91,9 @@ namespace InversionOfControlEngine
             _instances[type] = instance;
         }
 
-        public override object Resolve(Dictionary<Type, LifecyclePolicy> policies)
+        public override object Resolve(
+            Dictionary<Type, LifecyclePolicy> policies,
+            Dictionary<Type, bool> typesNotResolvedYet)
         {
             if (!_instances.ContainsKey(_type))
             {
@@ -73,9 +111,11 @@ namespace InversionOfControlEngine
         {
         }
 
-        public override object Resolve(Dictionary<Type, LifecyclePolicy> policies)
+        public override object Resolve(
+            Dictionary<Type, LifecyclePolicy> policies,
+            Dictionary<Type, bool> typesNotResolvedYet = null)
         {
-            return base.Resolve(policies);
+            return base.Resolve(policies, typesNotResolvedYet);
         }
     }
 }
