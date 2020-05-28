@@ -115,11 +115,35 @@ namespace IoCETest
         }
 
         [TestMethod]
-        public void Should_AllowReregistration_WhenRegisteringTheSameTypeTwice()
+        public void Should_AllowTransientReregistration()
         {
             var container = new SimpleContainer();
             container.RegisterType<IBar, Bar>(false);
             container.RegisterType<IBar, AnotherBar>(false);
+
+            IBar bar = container.Resolve<IBar>();
+
+            Assert.IsInstanceOfType(bar, typeof(AnotherBar));
+        }
+
+        [TestMethod]
+        public void Should_AllowSingletonReregistration()
+        {
+            var container = new SimpleContainer();
+            container.RegisterType<IBar, Bar>(true);
+            container.RegisterType<IBar, AnotherBar>(true);
+
+            IBar bar = container.Resolve<IBar>();
+
+            Assert.IsInstanceOfType(bar, typeof(AnotherBar));
+        }
+
+        [TestMethod]
+        public void Should_AllowMixedPolicyReregistration()
+        {
+            var container = new SimpleContainer();
+            container.RegisterType<IBar, Bar>(false);
+            container.RegisterType<IBar, AnotherBar>(true);
 
             IBar bar = container.Resolve<IBar>();
 
