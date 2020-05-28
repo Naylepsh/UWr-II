@@ -50,7 +50,7 @@ namespace InversionOfControlEngine
                 throw new ArgumentException(string.Format("Type {0} not registered", typeof(T)));
             }
 
-            return (T)_registeredTypes[typeof(T)].Resolve();
+            return (T)_registeredTypes[typeof(T)].Resolve(_registeredTypes);
         }
 
         public ICollection<Type> RegisteredTypes()

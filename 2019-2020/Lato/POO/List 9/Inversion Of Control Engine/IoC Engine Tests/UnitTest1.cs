@@ -1,6 +1,7 @@
 ﻿using InversionOfControlEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace IoCETest
 {
@@ -33,6 +34,21 @@ namespace IoCETest
 
         private class Baz : AbstractBaz
         {
+        }
+
+        private class Quux
+        {
+            public int X { get; set; }
+
+            public Quux()
+            {
+                X = 0;
+            }
+
+            public Quux(int x)
+            {
+                X = x;
+            }
         }
 
         [TestMethod]
@@ -202,6 +218,40 @@ namespace IoCETest
 
             Assert.AreEqual(foo, secondFoo);
             Assert.AreNotEqual(foo, firstFoo);
+        }
+
+        [TestMethod]
+        public void Should_ResolveSimpleTypes()
+        {
+            var container = new SimpleContainer();
+            int x = 42;
+            container.RegisterInstance<int>(x);
+
+            int result = container.Resolve<int>();
+
+            Assert.AreEqual(x, result);
+        }
+
+        [TestMethod]
+        public void Should_ThrowError_WhenResolvingTypeDependantOnUnregisteredType()
+        {
+            var container = new SimpleContainer();
+            container.RegisterType<Quux>(false);
+
+            Assert.ThrowsException<InvalidOperationException>(container.Resolve<Quux>);
+        }
+
+        [TestMethod]
+        public void Should_ResolveDependantType_WhenDependanciesAreRegistered()
+        {
+            var container = new SimpleContainer();
+            int x = 42;
+            container.RegisterInstance<int>(x);
+            container.RegisterType<Quux>(false);
+
+            Quux acquired = container.Resolve<Quux>();
+
+            Assert.AreEqual(x, acquired.X);
         }
     }
 }

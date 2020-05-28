@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace InversionOfControlEngine
@@ -12,7 +13,33 @@ namespace InversionOfControlEngine
             _type = type;
         }
 
-        public abstract object Resolve();
+        public virtual object Resolve(Dictionary<Type, LifecyclePolicy> policies)
+        {
+            var constructors = _type
+                .GetConstructors()
+                .OrderByDescending(constr => constr.GetParameters().Length)
+                ;
+
+            var constructor = constructors.First();
+
+            var resolvedParameters = new List<object>();
+            foreach (var parameter in constructor.GetParameters())
+            {
+                try
+                {
+                    Type parameterType = parameter.ParameterType;
+                    object resolved = policies[parameterType].Resolve(policies);
+                    resolvedParameters.Add(resolved);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException("Could not resolve at least one of the constructors");
+                }
+            }
+
+            var instance = constructor.Invoke(resolvedParameters.ToArray());
+            return instance;
+        }
     }
 
     public class SingletonLifecyclePolicy : LifecyclePolicy
@@ -28,11 +55,12 @@ namespace InversionOfControlEngine
             _instances[type] = instance;
         }
 
-        public override object Resolve()
+        public override object Resolve(Dictionary<Type, LifecyclePolicy> policies)
         {
             if (!_instances.ContainsKey(_type))
             {
-                _instances[_type] = Activator.CreateInstance(_type);
+                var instance = base.Resolve(policies);
+                _instances[_type] = instance;
             }
 
             return _instances[_type];
@@ -45,9 +73,9 @@ namespace InversionOfControlEngine
         {
         }
 
-        public override object Resolve()
+        public override object Resolve(Dictionary<Type, LifecyclePolicy> policies)
         {
-            return Activator.CreateInstance(_type);
+            return base.Resolve(policies);
         }
     }
 }
