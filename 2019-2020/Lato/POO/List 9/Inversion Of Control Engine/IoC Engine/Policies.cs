@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace InversionOfControlEngine
 {
@@ -42,12 +44,65 @@ namespace InversionOfControlEngine
 
         private ConstructorInfo GetConstructor()
         {
-            var constructors = _type
-                .GetConstructors()
-                .OrderByDescending(constr => constr.GetParameters().Length)
-                ;
+            ConstructorInfo constructor = GetAttributedConstructor();
+            if (constructor == null)
+            {
+                constructor = GetConstructorWithTheMostParameters();
+            }
 
-            var constructor = constructors.First();
+            Debug.Assert(constructor != null);
+
+            return constructor;
+        }
+
+        private ConstructorInfo GetAttributedConstructor()
+        {
+            ConstructorInfo constructor = null;
+
+            Console.WriteLine(_type.GetConstructors());
+            foreach (var candidate in _type.GetConstructors())
+            {
+                bool hasConstructorAttribute = candidate
+                    .GetCustomAttributes(typeof(DependencyConstructor), false)
+                    .Any();
+
+                if (hasConstructorAttribute)
+                {
+                    if (constructor == null)
+                    {
+                        constructor = candidate;
+                    }
+                    else
+                    {
+                        throw new ResolveException("Found more than one constructor with [DependencyConstructor] attribute");
+                    }
+                }
+            }
+
+            return constructor;
+        }
+
+        private ConstructorInfo GetConstructorWithTheMostParameters()
+        {
+            int maxNumberOfParameters = -1;
+            int constructorsWithMaxLengthParameters = 0;
+            ConstructorInfo constructor = null;
+
+            foreach (var candidate in _type.GetConstructors())
+            {
+                var numberOfParameters = candidate.GetParameters().Length;
+                if (numberOfParameters == maxNumberOfParameters)
+                {
+                    constructorsWithMaxLengthParameters++;
+                }
+                else if (numberOfParameters > maxNumberOfParameters)
+                {
+                    maxNumberOfParameters = numberOfParameters;
+                    constructor = candidate;
+                    constructorsWithMaxLengthParameters = 0;
+                }
+            }
+
             return constructor;
         }
 

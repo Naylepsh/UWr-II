@@ -71,6 +71,35 @@ namespace IoCETest
             }
         }
 
+        private class ClassWithAttribute
+        {
+            public int X { get; set; }
+
+            [DependencyConstructor]
+            public ClassWithAttribute()
+            {
+                X = 0;
+            }
+
+            public ClassWithAttribute(int x)
+            {
+                X = x;
+            }
+        }
+
+        private class ClassWithTwoAttributedConstructors
+        {
+            [DependencyConstructor]
+            public ClassWithTwoAttributedConstructors()
+            {
+            }
+
+            [DependencyConstructor]
+            public ClassWithTwoAttributedConstructors(int x)
+            {
+            }
+        }
+
         [TestMethod]
         public void Should_CompareSameInstance_WhenUsingSingletonPolicy()
         {
@@ -283,6 +312,28 @@ namespace IoCETest
 
             Assert.ThrowsException<ResolveException>(container.Resolve<DependancyA>);
             Assert.ThrowsException<ResolveException>(container.Resolve<DependancyB>);
+        }
+
+        [TestMethod]
+        public void Should_UseConstructorWithAttribute_IfOneIsDefined()
+        {
+            var container = new SimpleContainer();
+            int x = 42;
+            container.RegisterInstance<int>(x);
+            container.RegisterType<ClassWithAttribute>(false);
+
+            var acquired = container.Resolve<ClassWithAttribute>();
+
+            Assert.AreEqual(0, acquired.X);
+        }
+
+        [TestMethod]
+        public void Should_ThrowError_WhenMoreThanOneAttributedConstructorIsFound()
+        {
+            var container = new SimpleContainer();
+            container.RegisterType<ClassWithTwoAttributedConstructors>(false);
+
+            Assert.ThrowsException<ResolveException>(container.Resolve<ClassWithTwoAttributedConstructors>);
         }
     }
 }
