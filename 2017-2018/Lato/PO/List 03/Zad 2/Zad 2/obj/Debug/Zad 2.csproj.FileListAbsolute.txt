@@ -1,9 +1,0 @@
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\obj\Debug\Zad 2.csprojResolveAssemblyReference.cache
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\obj\Debug\Zad 2.csproj.CoreCompileInputs.cache
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\bin\Debug\Zad 2.exe.config
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\bin\Debug\Zad 2.exe
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\bin\Debug\Zad 2.pdb
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\bin\Debug\Dictionary.dll
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\bin\Debug\Dictionary.pdb
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\obj\Debug\Zad 2.exe
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 2\Zad 2\obj\Debug\Zad 2.pdb

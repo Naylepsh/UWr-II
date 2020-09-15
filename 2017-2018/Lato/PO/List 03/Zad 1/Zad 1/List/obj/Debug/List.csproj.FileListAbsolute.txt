@@ -1,6 +1,0 @@
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\List\bin\Debug\List.dll
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\List\bin\Debug\List.pdb
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\List\obj\Debug\List.csprojResolveAssemblyReference.cache
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\List\obj\Debug\List.csproj.CoreCompileInputs.cache
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\List\obj\Debug\List.dll
-C:\Users\naylepsh\Documents\Code\PO\List 03\Zad 1\Zad 1\List\obj\Debug\List.pdb
