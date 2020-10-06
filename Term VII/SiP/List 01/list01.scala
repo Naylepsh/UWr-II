@@ -188,5 +188,3 @@ def printNonEmpty(pattern: String): Unit = {
     }
   }
 }
-
-printNonEmptyUgly(".scala")
