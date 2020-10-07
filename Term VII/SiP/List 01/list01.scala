@@ -15,12 +15,21 @@ def scalarUgly(xs: List[Int], ys: List[Int]) = {
   product
 }
 
-def scalar(xs: List[Int], ys: List[Int]) = {
-  val length = min(xs.length, ys.length)
-  val products = for { i <- 0 to length - 1 } yield xs(i) * ys(i) 
-
-  products.toList.sum
+def scalar(xs: List[Int], ys: List[Int]): Int = {
+  if (xs.length == 0 && ys.length == 0) {
+    0
+  } else {
+    xs.head * ys.head + scalar(xs.tail, ys.tail)
+  }
 }
+
+// iterative scalar even tho List makes it inefficient
+// def scalar(xs: List[Int], ys: List[Int]) = {
+//   val length = min(xs.length, ys.length)
+//   val products = for { i <- 0 to length - 1 } yield xs(i) * ys(i) 
+
+//   products.toList.sum
+// }
 
 //quicksort algorithm
 def sortUgly(xs: List[Int]): List[Int] = {
