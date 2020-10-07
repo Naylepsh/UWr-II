@@ -117,6 +117,7 @@ class FlatMonteCarlo:
             simulator = TicTacToeSimulator(
                 updated_player_positions, opponent_positions, updated_available_positions)
             res = simulator.simulate()
+
             self.states[i].visit_count += 1
             self.states[i].win_score += res
             # counter += 1
