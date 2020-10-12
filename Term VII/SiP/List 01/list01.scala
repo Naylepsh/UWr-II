@@ -158,7 +158,22 @@ def primePairs(n : Int): List[(Int, Int)] = {
 
 //create a list with all lines from given file
 val filesHere = new java.io.File(".").listFiles
-def fileLinesUgly(file: java.io.File): List[String] = ???
+// completely pointless usage of while since fileBuf.getLines().toList gives us the same result.
+// I couldn't find any 'reasonable' code that would use while loop for reading file content tho.
+def fileLinesUgly(file: java.io.File): List[String] = {
+  var stringBuf = new ListBuffer[String]()
+  var fileBuf = scala.io.Source.fromFile(file)
+  var lines = fileBuf.getLines().toList
+  var lineCounter = 0
+  while (lineCounter < lines.length) {
+    stringBuf += lines(lineCounter)
+    lineCounter += 1
+  }
+  fileBuf.close
+
+  lines.toList
+}
+println(fileLinesUgly(filesHere(0)))
 
 def fileLines(file: java.io.File): List[String] = {
   val buf = scala.io.Source.fromFile(file)
