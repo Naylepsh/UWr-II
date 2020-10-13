@@ -15,7 +15,7 @@ def scalarUgly(xs: List[Int], ys: List[Int]) = {
 }
 
 def scalar(xs: List[Int], ys: List[Int]): Int = {
-  if (xs.length == 0 && ys.length == 0) {
+  if (xs.length == 0 || ys.length == 0) {
     0
   } else {
     xs.head * ys.head + scalar(xs.tail, ys.tail)
@@ -30,6 +30,7 @@ def scalar(xs: List[Int], ys: List[Int]): Int = {
 
 //   products.toList.sum
 // }
+
 
 //quicksort algorithm
 def sortUgly(xs: List[Int]): List[Int] = {
@@ -86,7 +87,6 @@ def swapUgly(xs: ListBuffer[Int], i: Int, j: Int) = {
   xs(j) = temp
 }
 
-
 // since list.filter(cond) if technically equivalent to for (x <- xs; if cond), I'm gonna use that
 def sort(xs: List[Int]): List[Int] = {
   if (xs.length <= 1) return xs
@@ -102,6 +102,8 @@ def sort(xs: List[Int]): List[Int] = {
 
 //checks if n is prime
 def isPrimeUgly(n: Int): Boolean = {
+  if (n == 0) return false
+
   var abs = n.abs
   if (abs == 1) return false
 
@@ -115,6 +117,8 @@ def isPrimeUgly(n: Int): Boolean = {
 }
 
 def isPrime(n: Int): Boolean = {
+  if (n == 0) return false
+
   val abs = n.abs
   if (abs == 1) return false
 
@@ -124,6 +128,7 @@ def isPrime(n: Int): Boolean = {
 
   return true
 }
+
 
 //for given positive integer n, find all pairs of integers i and j, where 1 ≤ j < i < n such that i + j is prime
 def primePairsUgly(n : Int): List[(Int, Int)] = {
@@ -156,32 +161,45 @@ def primePairs(n : Int): List[(Int, Int)] = {
   pairs.toList
 }
 
+
 //create a list with all lines from given file
 val filesHere = new java.io.File(".").listFiles
 // completely pointless usage of while since fileBuf.getLines().toList gives us the same result.
 // I couldn't find any 'reasonable' code that would use while loop for reading file content tho.
+// (unless reading char by char with buf.hasNext is considered reasonable, but that's kinda... yikes)
 def fileLinesUgly(file: java.io.File): List[String] = {
-  var stringBuf = new ListBuffer[String]()
   var fileBuf = scala.io.Source.fromFile(file)
-  var lines = fileBuf.getLines().toList
+  var lines: List[String] = List();
+  try {
+    lines = fileBuf.getLines().toList
+  } catch {
+    case _: Throwable => lines = List()
+  } finally {
+    fileBuf.close
+  }
+
+  var stringBuf = new ListBuffer[String]()
   var lineCounter = 0
   while (lineCounter < lines.length) {
     stringBuf += lines(lineCounter)
     lineCounter += 1
   }
-  fileBuf.close
 
-  lines.toList
+  stringBuf.toList
 }
-println(fileLinesUgly(filesHere(0)))
 
 def fileLines(file: java.io.File): List[String] = {
   val buf = scala.io.Source.fromFile(file)
-  val lines = buf.getLines().toList
-  buf.close
-
-  lines
+  try {
+    val lines = buf.getLines().toList
+    return lines
+  } catch {
+    case _: Throwable => return List()
+  } finally {
+    buf.close
+  }
 }
+
 
 //print names of all .scala files which are in filesHere & are non empty
 def printNonEmptyUgly(pattern: String): Unit = {
