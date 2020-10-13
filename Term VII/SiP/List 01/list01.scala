@@ -1,5 +1,4 @@
 import scala.collection.mutable.ListBuffer
-import scala.math.{min}
 
 //scalar product of two vectors xs and ys
 def scalarUgly(xs: List[Int], ys: List[Int]) = {
@@ -25,6 +24,7 @@ def scalar(xs: List[Int], ys: List[Int]): Int = {
 
 // iterative scalar even tho List makes it inefficient
 // def scalar(xs: List[Int], ys: List[Int]) = {
+//   import scala.math.{min}
 //   val length = min(xs.length, ys.length)
 //   val products = for { i <- 0 to length - 1 } yield xs(i) * ys(i) 
 
