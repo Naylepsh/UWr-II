@@ -15,5 +15,11 @@ class Triangle(val points: Array[Point]) extends Shape(points) {
 }
 
 object Triangle {
-  def apply(point: Point, angle: Double) = ???
+  def apply(p1: Point, p2: Point, p3: Point): Triangle = {
+    new Triangle(Array(p1, p2, p3))
+  }
+
+  def apply(points: Array[Point]): Triangle = {
+    new Triangle(points)
+  }
 }
