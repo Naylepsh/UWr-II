@@ -32,7 +32,7 @@ def gather_successors_from_bigrams(filename, K=1):
     def process_line(line):
         line = line.rstrip('\n').split(' ')
         if (len(line) != 3):
-            return
+            return []
 
         n, word1, word2 = line
         return int(n), (word1, ), word2
