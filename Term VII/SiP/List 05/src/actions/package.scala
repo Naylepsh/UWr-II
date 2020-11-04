@@ -20,14 +20,14 @@ package object actions {
 
   // plugin applying plugin Rotating 5-times
   val actionF: Pluginable = new Pluginable {
-    override def plug(text: String): Option[String] = repeatPlugin(new Pluginable with Rotating)(text, 5)
+    override def plugin(text: String): Option[String] = repeatPlugin(new Pluginable with Rotating)(text, 5)
   }
 
   // plugin applying plugins with order: actionA => actionB
   val actionG: Pluginable = new Pluginable {
-    override def plug(text: String): Option[String] = actionA.plug(text) match {
+    override def plugin(text: String): Option[String] = actionA.plugin(text) match {
       case Some(str) =>
-        actionB.plug(str)
+        actionB.plugin(str)
       case None => None
     }
   }
@@ -37,7 +37,7 @@ package object actions {
     def repeat(text: String, n: Int): Option[String] = n match {
       case 0 => Option(text)
       case _ =>
-        plugin.plug(text) match {
+        plugin.plugin(text) match {
           case Some(transformed) => repeat(transformed,  n - 1)
           case None => None
         }

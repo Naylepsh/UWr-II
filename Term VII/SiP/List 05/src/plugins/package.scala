@@ -1,33 +1,33 @@
 package object plugins {
   abstract class Pluginable {
-    def plug(text: String): Option[String] = Option(text)
+    def plugin(text: String): Option[String] = Option(text)
   }
 
 
   trait Reverting extends Pluginable {
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(str) => super.plug(str.reverse)
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(str) => super.plugin(str.reverse)
       case None => None
     }
   }
 
   trait LowerCasing extends Pluginable {
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(str) => super.plug(str.toLowerCase)
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(str) => super.plugin(str.toLowerCase)
       case None => None
     }
   }
 
   trait SingleSpacing extends Pluginable {
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(str) => super.plug(str.replaceAll(" +", " "))
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(str) => super.plugin(str.replaceAll(" +", " "))
       case None => None
     }
   }
 
   trait NoSpacing extends Pluginable {
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(str) => super.plug(str.replaceAll(" +", ""))
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(str) => super.plugin(str.replaceAll(" +", ""))
       case None => None
     }
   }
@@ -41,15 +41,15 @@ package object plugins {
         x + removeDuplicates(rest, text)
     }
 
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(_) => super.plug(removeDuplicates(text.toList, text))
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(_) => super.plugin(removeDuplicates(text.toList, text))
       case None => None
     }
   }
 
   trait Rotating extends Pluginable {
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(str) => super.plug(str.takeRight(1) + str.take(str.length - 1))
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(str) => super.plugin(str.takeRight(1) + str.take(str.length - 1))
       case None => None
     }
   }
@@ -57,8 +57,8 @@ package object plugins {
   trait Doubling extends Pluginable {
     def doubleEverySecondChar(chars: List[Char]): String = repeatEveryNCharMTimes(chars, 2, 2)
 
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(str) => super.plug(doubleEverySecondChar(str.toList))
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(str) => super.plugin(doubleEverySecondChar(str.toList))
       case None => None
     }
   }
@@ -66,8 +66,8 @@ package object plugins {
   trait Shortening extends Pluginable {
     def removeEverySecondCharacter(chars: Array[Char]): String = removeEveryNthChar(chars, 2)
 
-    override def plug(text: String): Option[String] = Option(text) match {
-      case Some(str) => super.plug(removeEverySecondCharacter(str.toCharArray))
+    override def plugin(text: String): Option[String] = Option(text) match {
+      case Some(str) => super.plugin(removeEverySecondCharacter(str.toCharArray))
       case None => None
     }
   }
