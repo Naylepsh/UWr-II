@@ -64,9 +64,6 @@ typings/
 uploads/
 sessions/
 
-# tests
-tests/
-
 # vs
 .vs/
 packages/
