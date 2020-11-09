@@ -1,11 +1,11 @@
 package object plugins {
   /*
-  the easiest way would be to have Puginable looks like this
+  the easiest way would be to have Puginable look like this
   abstract class Pluginable {
     def plugin(text: String): Option[String] = Option(text)
   }
 
-  Then for every trait we just repeat case Some(), case None in every Plugin, like this:
+  Then for every trait we just repeat case Some(), case None, like this:
   trait Reverting extends Pluginable {
     override def plugin(text: String): Option[String] = Option(text) match {
       case Some(str) => super.plugin(str.reverse)
@@ -89,10 +89,10 @@ package object plugins {
   }
 
   trait Shortening extends Pluginable {
-    def removeEverySecondCharacter(chars: Array[Char]): String = removeEveryNthChar(chars, 2)
+    def removeEverySecondCharacter(chars: List[Char]): String = removeEveryNthChar(chars, 2)
 
     override def plugin: String => Option[String] = plug(
-      (text: String) => removeEverySecondCharacter(text.toCharArray),
+      (text: String) => removeEverySecondCharacter(text.toList),
       super.plugin
     )
   }
@@ -115,20 +115,17 @@ I'm assuming the example in pdf is wrong,
 and deleting every second character from "ab cd" should return "a c" instead of "a d".
 Otherwise there should be a separate counter for encountered alphanumeric characters
 and removal should be based on that
-
-I didn't really know what's a better approach to handling ifs inside match cases
-that are "kinda-related-to-match-but-not-really" so I went with both ways
-(the other way with if inside @repeatEveryNCharMTimes)
  */
-  private def removeEveryNthChar(chars: Array[Char], n: Int): String = {
-    val offset = 1
-    def walk(index: Int): String = index match {
-      case _ if index == chars.length => ""
-      case _ if (index + offset) % n == 0 => walk(index + 1)
-      case _ => chars(index) + walk(index + 1)
+  private def removeEveryNthChar(chars: List[Char], n: Int): String = {
+    def walk(chars: List[Char], index: Int): String = chars match {
+      case Nil => ""
+      case char :: rest =>
+        val shouldRemove = index % n == 0
+        val partialRes = if (shouldRemove) "" else char
+        partialRes + walk(rest, index + 1)
     }
 
-    val initialIndex = 0
-    walk(initialIndex)
+    val initialIndex = 1
+    walk(chars, initialIndex)
   }
 }
