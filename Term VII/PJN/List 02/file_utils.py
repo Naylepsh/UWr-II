@@ -1,5 +1,5 @@
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 class SentenceLengthRatio:
@@ -20,6 +20,21 @@ def get_words_from_file(filename):
         regex = re.compile(r'[,\.!?:;\'0-9\*\-“…\(\)„”—»«–––=\[\]’]')
         words = regex.sub('', text.lower()).split()
         return words
+    return parse_data_from_file(filename, parseText)
+
+
+def count_sentence_lengths_in_file(filename):
+    def parseText(text):
+        lengths = {}
+        lengths = defaultdict(lambda: 0, lengths)
+        regex = re.compile(r'[,\.!?:;\'0-9\*\-“…\(\)„”—»«–––=\[\]’]')
+        sentences = regex.sub('', text.lower()).split('\n')
+
+        for sentence in sentences:
+            words = sentence.split()
+            lengths[len(words)] += 1
+
+        return lengths
     return parse_data_from_file(filename, parseText)
 
 
