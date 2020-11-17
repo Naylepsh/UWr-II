@@ -23,14 +23,16 @@ class AuthorshipClass:
         return count / self.total_length_count
 
 
-def naive_bayes(words: List[str], classes: List[AuthorshipClass]):
+def naive_bayes(words: List[str], classes: List[AuthorshipClass], sent_length_mult):
     # cs = {c.symbol: ln(c.total_count) for c in classes}
     cs = {c.symbol: 1 for c in classes}
 
     # sentence length trait
     sentence_length = len(words)
     for c in classes:
-        cs[c.symbol] += ln(c.p_of_sentence(sentence_length))
+        print(sent_length_mult)
+        mult = sent_length_mult(words)
+        cs[c.symbol] += mult * ln(c.p_of_sentence(sentence_length))
 
     # word trait
     for word in words:
