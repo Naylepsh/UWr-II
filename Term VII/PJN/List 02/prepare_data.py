@@ -7,10 +7,14 @@ for filename in filenames:
         with open(f'dane/{filename}', 'r', encoding='utf-8') as infile:
             with open(f'dane/validation_{filename}', 'w+', encoding='utf-8') as validation_set:
                 for line in infile:
-                    if len(line.rstrip('\n')) == 0:
+                    line = line.rstrip('\n')
+                    if len(line) == 0:
                         continue
-                    chance = randint(0, 10)
-                    if chance < 1:
-                        validation_set.write(line)
-                    else:
-                        teaching_set.write(line)
+
+                    line = line.replace('?', '.').replace('!', '.')
+                    for sentence in line.split('.'):
+                        chance = randint(0, 10)
+                        if chance < 1:
+                            validation_set.write(sentence + '\n')
+                        else:
+                            teaching_set.write(sentence + '\n')
