@@ -33,30 +33,16 @@ package object Orders {
       core + ps + ds + disc + info + "---------------"
     }
 
-    def extraMeatPrice: Option[Double] = pizzas match {
-      case Some(values) => Some(values.map(_.extraMeatPrice()).sum)
-      case None => None
-    }
+    def extraMeatPrice: Option[Double] = pizzas.map(_.map(_.extraMeatPrice()).sum)
 
-    def pizzasPrice: Option[Double] = pizzas match {
-      case Some(values) => Some(values.map(_.price).sum)
-      case None => None
-    }
+    def pizzasPrice: Option[Double] = pizzas.map(_.map(_.price).sum)
 
-    def drinksPrice: Option[Double] = drinks match {
-      case Some(values) => Some(values.map(_.price).sum)
-      case None => None
-    }
+    def drinksPrice: Option[Double] = drinks.map(_.map(_.price).sum)
 
-    def priceByType(pizzaType: PizzaType): Option[Double] = pizzas match {
-      case Some(values) => Some(values.filter(_.pizzaType == pizzaType).map(_.price).sum)
-      case None => None
-    }
-
-    // For whatever reason calling pizzasPrice.getOrElse(0) doesn't work (same with drinksPrice),
-    // hence why these seemingly unnecessary helpers
-    private val priceOfPizzas: Double = pizzasPrice.getOrElse(0)
-    private val priceOfDrinks: Double = drinksPrice.getOrElse(0)
+    def priceByType(pizzaType: PizzaType): Option[Double] = pizzas
+      .map(_.filter(_.pizzaType == pizzaType)
+            .map(_.price)
+            .sum)
 
     val price: Double = {
       val discountMultiplier = discount match {
@@ -64,6 +50,8 @@ package object Orders {
         case Some(Senior) => 0.93
         case None => 1
       }
+      val priceOfPizzas: Double = pizzasPrice.getOrElse(0)
+      val priceOfDrinks: Double = drinksPrice.getOrElse(0)
 
       discountMultiplier * (priceOfPizzas + priceOfDrinks)
     }

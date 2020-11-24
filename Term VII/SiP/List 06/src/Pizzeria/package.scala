@@ -49,10 +49,8 @@ package object Pizzeria {
       "----Pizza----\n" + core + meat + topping + "-------------\n"
     }
 
-    // for whatever reason calling extraNeat.map... doesn't work (same with extraTopping),
-    // hence why these seemingly unnecessary helpers
-    // Also, Optional.map().sum is shorter than match case Some, case None
     def extraMeatPrice(): Double = extraMeat.map(_.price).sum
+
     def extraToppingPrice(): Double = extraTopping.map(_.price).sum
 
     override val price: Double = {
