@@ -36,3 +36,8 @@
 - Bazy danych (Databases)
 - Sieci Komputerowe (Computer networks)
 - Systemy Komputerowe (Computer systems)
+
+## TERM VII
+
+- Scala in Practice
+- Przetwarzanie języka naturalnego (Natural Language Processing)
