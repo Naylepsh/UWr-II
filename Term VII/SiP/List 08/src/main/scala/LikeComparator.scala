@@ -3,6 +3,7 @@ import FileUtils.writeToFile
 import com.restfb.types.User
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 class LikeComparator(accessToken: String) {
   private def logResult(logFile: String, user1: User, user2: User): Unit = {
