@@ -1,15 +1,13 @@
 name := "List 09"
 
-scalaVersion in ThisBuild := "2.13.4"
-
-ThisBuild / scalafixDependencies +=
-  "com.eed3si9n.fix" %% "scalafix-noinfer" % "0.1.0-M1"
+scalaVersion := "2.13.4"
 
 coverageEnabled := true
 coverageMinimum := 80
 coverageFailOnMinimum := true
 
 import scalariform.formatter.preferences._
+
 scalariformPreferences := scalariformPreferences.value
   .setPreference(AlignSingleLineCaseStatements, true)
   .setPreference(DoubleIndentConstructorArguments, true)

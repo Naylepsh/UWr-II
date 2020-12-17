@@ -4,15 +4,16 @@ import cards._
 import deck._
 import scala.annotation.tailrec
 
-class Blackjack(deck: Deck) {
+class Blackjack(val deck: Deck, printer: BlackjackPrinter) {
   import Blackjack._
   def play(n: Int): Unit = {
     require(n > 0)
 
     val cards = deck.cards.take(n)
     val handValue = evaluateHand(cards)
-    prettyCardsPrint(cards)
-    println(s"Hand value: $handValue")
+
+    printer.prettyPrintCards(cards)
+    printer.prettyPrintHandValue(handValue)
   }
 
   lazy val all21: List[List[Card]] = {
@@ -27,7 +28,7 @@ class Blackjack(deck: Deck) {
 
   def first21(): Unit = {
     val hand = all21.head
-    prettyCardsPrint(hand)
+    printer.prettyPrintCards(hand)
   }
 }
 
@@ -36,7 +37,7 @@ object Blackjack {
   val aceMinValue = 1
   val aceMaxValue = 11
 
-  def apply(numOfDecks: Int = 1): Blackjack = {
+  def apply(numOfDecks: Int = 1, printer: BlackjackPrinter = BlackjackConsolePrinter): Blackjack = {
     import scala.util.Random.shuffle
     require(numOfDecks > 0)
 
@@ -47,7 +48,7 @@ object Blackjack {
 
     val cards = getEnoughCardsForDecks(numOfDecks)
     val deck = new Deck(shuffle(cards))
-    new Blackjack(deck)
+    new Blackjack(deck, printer)
   }
 
   @tailrec
@@ -56,19 +57,6 @@ object Blackjack {
     case card :: otherCards =>
       val value = cardValue(card, currentValue)
       evaluateHand(otherCards, currentValue + value)
-  }
-
-  @tailrec
-  def prettyCardsPrint(cards: List[Card], currentValue: Int = 0): Unit = cards match {
-    case Nil => ()
-    case card :: otherCards =>
-      val value = cardValue(card, currentValue)
-      prettyCardPrint(card, value)
-      prettyCardsPrint(otherCards, currentValue + value)
-  }
-
-  def prettyCardPrint(card: Card, cardValue: Int): Unit = {
-    println(s"${card.rank} of ${card.color} [$cardValue]")
   }
 
   def cardValue(card: Card, currentValue: Int): Int = {
