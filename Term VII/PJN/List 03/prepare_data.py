@@ -41,7 +41,7 @@ def create_bigram(src, dest):
                 if y in bigram[x]:
                     bigram[x][y] += 1
                 else:
-                    bigram[x][y] = 0
+                    bigram[x][y] = 1
 
     with open(dest, 'w', encoding='utf-8') as dest:
         for x in bigram:
