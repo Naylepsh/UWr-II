@@ -2,17 +2,10 @@ package blackjack
 
 import cards._
 import deck._
-
 import scala.annotation.tailrec
 
 class Blackjack(deck: Deck) {
   import Blackjack._
-  // Points calculation:
-  // 1. Numerical cards as their numerical value = 2 - 10.
-  // 2. Face cards (Jack, Queen, King) = 10
-  // 3. Ace = 1 or 11 (player could choose)
-
-  // loop taking n cards from the deck, pretty-printing them with points & printing the sum of points on the end
   def play(n: Int): Unit = {
     require(n > 0)
 
@@ -22,7 +15,6 @@ class Blackjack(deck: Deck) {
     println(s"Hand value: $handValue")
   }
 
-  // finds all subsequences of cards which could give 21 points
   lazy val all21: List[List[Card]] = {
     val deckSize = deck.cards.length
     (for {
@@ -33,7 +25,6 @@ class Blackjack(deck: Deck) {
     } yield cards).toList
   }
 
-  // finds and pretty-prints the first subsequence of cards which could give 21 points
   def first21(): Unit = {
     val hand = all21.head
     prettyCardsPrint(hand)
@@ -45,7 +36,6 @@ object Blackjack {
   val aceMinValue = 1
   val aceMaxValue = 11
 
-  // creates Blackjack.Blackjack game having numOfDecks-amount of standard decs with random order of cards
   def apply(numOfDecks: Int = 1): Blackjack = {
     import scala.util.Random.shuffle
     require(numOfDecks > 0)
@@ -82,9 +72,10 @@ object Blackjack {
   }
 
   def cardValue(card: Card, currentValue: Int): Int = {
+    val faceCardValue = 10
     card.rank match {
       case numerical: Numerical => numerical.pips
-      case _: Face => 10
+      case _: Face => faceCardValue
       case _: Ace.type => bestAceValue(currentValue)
     }
   }
