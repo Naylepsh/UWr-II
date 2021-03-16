@@ -1,14 +1,17 @@
 ﻿-- SETUP -----
+drop table if exists m1
 create table m1 (
 	k integer primary key,
 	v varchar(20)
 )
 
+drop table if exists s1
 create table s1 (
 	k integer primary key,
 	mfk int foreign key references m1(k)
 )
 
+drop table if exists m2
 create table m2 (
 	k1 integer,
 	k2 integer,
@@ -16,6 +19,7 @@ create table m2 (
 	constraint pk_m2 primary key (k1, k2)
 )
 
+drop table if exists s2
 create table s2 (
 	k integer primary key,
 	mk1 integer,
@@ -82,7 +86,6 @@ where k1 = 2
 
 select * from m2
 select * from s2
-
 
 -- TEARDOWN ----
 drop table s2
