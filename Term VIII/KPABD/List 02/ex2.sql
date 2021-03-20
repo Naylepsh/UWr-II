@@ -51,23 +51,22 @@ create procedure fill_fldata @n int
 as
 begin
 	declare @possible_fl_keys table (firstname varchar(20), lastname varchar(20))
-	declare @combinations int
+	declare @possible_fl_keys_count int
 
+	-- all unique firstname-lastname combinations
 	insert into @possible_fl_keys
-	select firstnames.firstname, lastnames.lastname 
+	select distinct firstname, lastname 
 	from firstnames, lastnames
-	where not exists (
-		select fldata.firstname, fldata.lastname from fldata 
-		where fldata.firstname = firstnames.firstname and fldata.lastname = lastnames.lastname)
 
-	select @combinations=COUNT(*)
+	select @possible_fl_keys_count=COUNT(*)
 	from @possible_fl_keys
 
 	-- anything past error 50000 is reserved for user defined errors
-	if (@n > @combinations) throw 51000, '@n must not be greater than the number of combinations', 1
+	if (@n > @possible_fl_keys_count) throw 51000, '@n must not be greater than the number of combinations', 1
 
 	delete from fldata;
 
+	-- inserting n random unique firstname-lastname combinations
 	insert into fldata
 	select top (@n) firstname, lastname
 	from @possible_fl_keys
@@ -77,6 +76,6 @@ go
 
 
 -- EXECUTION
-exec fill_fldata @n=7
+exec fill_fldata @n=8
 
 select * from fldata
