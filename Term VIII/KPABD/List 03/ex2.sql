@@ -43,7 +43,7 @@ values
 insert into 
     L3.SalaryHistory
 values 
-    (1, 2021, 1, 10000, 10000 + 10000 * 0.18),
+	(1, 2021, 1, 10000, 10000 + 10000 * 0.18),
 	(1, 2021, 2, 10000, 10000 + 10000 * 0.18),
 	(1, 2021, 3, 10000, 10000 + 10000 * 0.18),
 	(1, 2021, 4, 10000, 10000 + 10000 * 0.18),
@@ -51,11 +51,12 @@ values
 	(1, 2021, 6, 10000, 10000 + 10000 * 0.18),
 	(1, 2021, 7, 10000, 10000 + 10000 * 0.18),
 	(1, 2021, 8, 10000, 10000 + 10000 * 0.18)
+	--(1, 2021, 8, 0, 0)
 
 insert into 
     L3.SalaryHistory
 values 
-    (2, 2021, 1, 10000, 10000 + 10000 * 0.18),
+	(2, 2021, 1, 10000, 10000 + 10000 * 0.18),
 	(2, 2021, 2, 10000, 10000 + 10000 * 0.18),
 	(2, 2021, 3, 10000, 10000 + 10000 * 0.18),
 	(2, 2021, 4, 10000, 10000 + 10000 * 0.18),
@@ -77,27 +78,28 @@ values
 	(3, 2021, 8, 5000, 5000 + 5000 * 0.18)
 go
 
-drop procedure if exists spCalculateEmployeesSalary
+drop procedure if exists SP_CalculateEmployeesSalary
 go
 
-create procedure spCalculateEmployeesSalary @month int, @year int
+create procedure SP_CalculateEmployeesSalary @month int, @year int
 as
 begin
-	declare cCalculateEmployeesSalary cursor
+	declare C_CalculateEmployeesSalary cursor
 	for 
 	select 
 		E.ID, 
 		E.SalaryGros, 
-		SUM(SH.SalaryNet) as SalaryNetSum, 
+		sum(SH.SalaryNet) as SalaryNetSum, 
 		case 
 			when 
-				COUNT(SH.Month) = max(SH.Month) - min(SH.Month) + 1 
+				count(SH.Month) = max(SH.Month) - min(SH.Month) + 1 and 
+				max(SH.Month) = @month - 1
 			then 1 
 			else 0 
 		end as AreMonthsConsecutive,
 		max(SH.Month)
 	from L3.Employees E
-	left join L3.SalaryHistory SH on E.ID = SH.EmployeeID and Month <= @month and Year = @year
+	left join L3.SalaryHistory SH on E.ID = SH.EmployeeID and Month < @month and Year = @year
 	group by E.ID, E.SalaryGros
 
 	declare 
@@ -114,9 +116,9 @@ begin
 	set @BelowThresholdTaxValue = 0.18
 	set @AboveOrEqualToThresholdTaxValue = 0.32
 
-	open cCalculateEmployeesSalary
+	open C_CalculateEmployeesSalary
 
-	fetch next from cCalculateEmployeesSalary 
+	fetch next from C_CalculateEmployeesSalary 
 	into @EmployeeID, @SalaryGros, @SalaryNetSum, @AreMonthsConsecutive, @LastPaidMonth
 
 	while (@@FETCH_STATUS = 0)
@@ -137,7 +139,7 @@ begin
 			begin
 				declare @BelowTax decimal(19, 2), @AboveTax decimal(19, 2)
 				set @BelowTax = (@TaxThreshold - @SalaryNetSum) * (1 - @BelowThresholdTaxValue)
-				set @AboveTax = (@SalaryGros - @BelowTax) * (1 - @AboveOrEqualToThresholdTaxValue)
+				set @AboveTax = (@SalaryNetSum + @SalaryGros - @TaxThreshold) * (1 - @AboveOrEqualToThresholdTaxValue)
 				set @Salary = @BelowTax + @AboveTax
 
 				insert into L3.SalaryHistory
@@ -150,17 +152,17 @@ begin
 				insert into L3.SalaryHistory
 				values (@EmployeeID, @year, @month, @Salary, @SalaryGros)
 			end
-		fetch next from cCalculateEmployeesSalary 
+		fetch next from C_CalculateEmployeesSalary 
 		into @EmployeeID, @SalaryGros, @SalaryNetSum, @AreMonthsConsecutive, @LastPaidMonth
 	end
 
-	close cCalculateEmployeesSalary
-	deallocate cCalculateEmployeesSalary
+	close C_CalculateEmployeesSalary
+	deallocate C_CalculateEmployeesSalary
 end
 go
 
-exec spCalculateEmployeesSalary 9, 2021
-exec spCalculateEmployeesSalary 10, 2021
+exec SP_CalculateEmployeesSalary 9, 2021
+exec SP_CalculateEmployeesSalary 10, 2021
 
 select * from L3.Logs
 select * from L3.SalaryHistory where month >= 9 and year = 2021
