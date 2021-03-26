@@ -54,47 +54,42 @@ instead of insert
 as
 begin
 	declare @UrlAddress varchar(255)
-	select @UrlAddress=UrlAddress from inserted
-
-	if (select count(*) from L3.Cache where UrlAddress = @UrlAddress) = 1
-		update L3.Cache set LastAccess = getdate() where UrlAddress = @UrlAddress
-	else
+	declare C_Cache_Insert cursor for select UrlAddress from inserted
+	open C_Cache_Insert
+	fetch next from C_Cache_Insert into @UrlAddress
+	while (@@fetch_status = 0)
 	begin
-		-- if cache is full
-		if (select Value from L3.Parameters where Name = 'max_cache') <= (select count(*) from L3.Cache)
+		if (select count(*) from L3.Cache where UrlAddress = @UrlAddress) = 1
+			update L3.Cache set LastAccess = getdate() where UrlAddress = @UrlAddress
+		else
 		begin
-			declare @OldEntryID int, @OldEntryUrl varchar(255), @OldEntryLastAccess datetime
-			select top 1 
-				@OldEntryID=ID, 
-				@OldEntryUrl=UrlAddress, 
-				@OldEntryLastAccess=LastAccess 
-			from L3.Cache 
-			order by LastAccess
+			-- if cache is full
+			if (select Value from L3.Parameters where Name = 'max_cache') <= (select count(*) from L3.Cache)
+			begin
+				declare @OldEntryID int, @OldEntryUrl varchar(255), @OldEntryLastAccess datetime
+				select top 1 
+					@OldEntryID=ID, 
+					@OldEntryUrl=UrlAddress, 
+					@OldEntryLastAccess=LastAccess 
+				from L3.Cache 
+				order by LastAccess
 
-			delete from L3.Cache where ID = @OldEntryID
+				delete from L3.Cache where ID = @OldEntryID
 
-			insert into L3.History values (@OldEntryUrl, @OldEntryLastAccess)
+				insert into L3.History values (@OldEntryUrl, @OldEntryLastAccess)
+			end
+
+			insert into L3.Cache values (@UrlAddress, getdate())
 		end
 
-		insert into L3.Cache values (@UrlAddress, getdate())
+		fetch next from C_Cache_Insert into @UrlAddress
 	end
+	close C_Cache_Insert
+	deallocate C_Cache_Insert
 end
 go
 
-insert into 
-	L3.Cache (UrlAddress)
-values
-	('foo.bar')
-
-insert into 
-	L3.Cache (UrlAddress)
-values
-	('abc.de')
-
-insert into 
-	L3.Cache (UrlAddress)
-values
-	('uwu.jp')
+insert into L3.Cache (UrlAddress) values ('foo.bar'), ('abc.de'), ('uwu.jp')
 
 select * from L3.Cache
 select * from L3.History
