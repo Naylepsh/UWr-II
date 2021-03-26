@@ -92,8 +92,7 @@ begin
 		sum(SH.SalaryNet) as SalaryNetSum, 
 		case 
 			when 
-				count(SH.Month) = max(SH.Month) - min(SH.Month) + 1 and 
-				max(SH.Month) = @month - 1
+				count(SH.Month) = max(SH.Month) - min(SH.Month) + 1 
 			then 1 
 			else 0 
 		end as AreMonthsConsecutive,
