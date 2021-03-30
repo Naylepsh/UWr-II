@@ -83,7 +83,7 @@ go
 create procedure SP_CalculateEmployeesSalary @month int, @year int
 as
 begin
-	declare C_CalculateEmployeesSalary cursor
+	declare C_CalculateEmployeesSalary cursor static
 	for 
 	select 
 		E.ID, 

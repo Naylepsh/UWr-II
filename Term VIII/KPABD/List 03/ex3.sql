@@ -1,14 +1,14 @@
 ﻿drop table if exists L3.Cache
 create table L3.Cache (
 	ID int identity primary key,
-	UrlAddress varchar(255),
+	UrlAddress varchar(255) unique,
 	LastAccess datetime
 )
 
 drop table if exists L3.History
 create table L3.History (
 	ID int identity primary key,
-	UrlAddress varchar(255),
+	UrlAddress varchar(255) unique,
 	LastAccess datetime
 )
 
@@ -41,6 +41,9 @@ begin
 	declare @UrlAddress varchar(255), @LastAccess datetime
 	select @UrlAddress=UrlAddress, @LastAccess=LastAccess from inserted
 
+	print 'HISTORY -- ' 
+	print @UrlAddress
+
 	if (select count(*) from L3.History where UrlAddress = @UrlAddress) = 1
 		update L3.History set LastAccess = getdate() where UrlAddress = @UrlAddress
 	else
@@ -54,11 +57,13 @@ instead of insert
 as
 begin
 	declare @UrlAddress varchar(255)
-	declare C_Cache_Insert cursor for select UrlAddress from inserted
+	declare C_Cache_Insert cursor static for select UrlAddress from inserted
 	open C_Cache_Insert
 	fetch next from C_Cache_Insert into @UrlAddress
 	while (@@fetch_status = 0)
 	begin
+		print 'CACHE --'
+		print @UrlAddress
 		if (select count(*) from L3.Cache where UrlAddress = @UrlAddress) = 1
 			update L3.Cache set LastAccess = getdate() where UrlAddress = @UrlAddress
 		else
@@ -72,7 +77,10 @@ begin
 					@OldEntryUrl=UrlAddress, 
 					@OldEntryLastAccess=LastAccess 
 				from L3.Cache 
-				order by LastAccess
+				order by LastAccess asc
+
+				print 'OLD ENTRY--'
+				print @OldEntryUrl
 
 				delete from L3.Cache where ID = @OldEntryID
 
@@ -89,7 +97,8 @@ begin
 end
 go
 
-insert into L3.Cache (UrlAddress) values ('foo.bar'), ('abc.de'), ('uwu.jp')
+insert into L3.Cache (UrlAddress) values ('abc.de'), ('uwu.jp'), ('foo.bar'), ('awooo')
+insert into L3.Cache (UrlAddress) values ('uwu.jp')
 
 select * from L3.Cache
 select * from L3.History
