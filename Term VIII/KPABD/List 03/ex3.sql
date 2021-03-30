@@ -41,7 +41,6 @@ begin
 	declare @UrlAddress varchar(255), @LastAccess datetime
 	select @UrlAddress=UrlAddress, @LastAccess=LastAccess from inserted
 
-	print 'HISTORY -- ' 
 	print @UrlAddress
 
 	if (select count(*) from L3.History where UrlAddress = @UrlAddress) = 1
@@ -62,7 +61,6 @@ begin
 	fetch next from C_Cache_Insert into @UrlAddress
 	while (@@fetch_status = 0)
 	begin
-		print 'CACHE --'
 		print @UrlAddress
 		if (select count(*) from L3.Cache where UrlAddress = @UrlAddress) = 1
 			update L3.Cache set LastAccess = getdate() where UrlAddress = @UrlAddress
@@ -79,7 +77,6 @@ begin
 				from L3.Cache 
 				order by LastAccess asc
 
-				print 'OLD ENTRY--'
 				print @OldEntryUrl
 
 				delete from L3.Cache where ID = @OldEntryID
