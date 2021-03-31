@@ -5,6 +5,7 @@ scalaVersion := "2.13.4"
 coverageEnabled := true
 coverageMinimum := 80
 coverageFailOnMinimum := true
+//SIP Nice that this coverage-check is added
 
 import scalariform.formatter.preferences._
 

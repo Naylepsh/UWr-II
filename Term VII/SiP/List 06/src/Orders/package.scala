@@ -46,6 +46,8 @@ package object Orders {
 
     val price: Double = {
       val discountMultiplier = discount match {
+        //SIP Functional bug... Students have discount only for pizzas (not for drinks)      
+        //SIP Also cleaner to abstract it in class, like - sealed abstract class Discount { def discount: ... }
         case Some(Student) => 0.95
         case Some(Senior) => 0.93
         case None => 1

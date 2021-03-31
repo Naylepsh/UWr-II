@@ -1,5 +1,5 @@
 package object plugins {
-  /*
+/*
   the easiest way would be to have Puginable look like this
   abstract class Pluginable {
     def plugin(text: String): Option[String] = Option(text)
@@ -13,31 +13,27 @@ package object plugins {
     }
   }
 
-  But that's a lot of boilerplate code, hence why using this helper feels a bit better
-  def plug(
-            text: String,
-            transform: String => String,
-            next: String => Option[String]
-          ): Option[String] = Option(text) match {
-    case Some(str) => next(transform(str))
-    case None => None
-  }
-  trait Reverting extends Pluginable {
-    override def plugin(text: String): Option[String] = plug(text, _.reverse, super.plugin)
-  }
-
-  But we can still make it better by not repeating text parameter everywhere (as shown in final code)
-   */
-
-  trait Pluginable {
-    def plugin: String => Option[String] = (text: String) => Option(text)
-  }
+  However, that feels like too much of boilerplate code, hence why the helper below.
+  Unfortunately, it still requires passing super.plugin as an argument, but I'd say it's a huge improvement over case spam
+*/
+  //SIP Could have a bit simpler architecture, like:
+  //trait Plugin {
+  //  def plugin(s: String): String = s
+  //}
+  //trait LowerCasing extends Plugin {
+  //  override def plugin(s: String): String = super.plugin(s.toLowerCase)
+  //}
+  //...
 
   def plug(transform: String => String, next: String => Option[String]): String => Option[String] = {
     (text: String) => Option(text) match {
       case Some(str) => next(transform(str))
       case None => None
     }
+  }
+
+  trait Pluginable {
+    def plugin: String => Option[String] = (text: String) => Option(text)
   }
 
   trait Reverting extends Pluginable {
@@ -74,12 +70,13 @@ package object plugins {
 
   trait Rotating extends Pluginable {
     override def plugin: String => Option[String] = plug(
-      (text: String) => text.takeRight(1) + text.take(text.length - 1),
+      (text: String) => text.init + text.last,
       super.plugin
     )
   }
 
   trait Doubling extends Pluginable {
+     //SIP Also could be like: super.plugin((text map (c => s"$c$c")).mkString)       
     def doubleEverySecondChar(chars: List[Char]): String = repeatEveryNCharMTimes(chars, 2, 2)
 
     override def plugin: String => Option[String] = plug(
@@ -116,6 +113,7 @@ and deleting every second character from "ab cd" should return "a c" instead of 
 Otherwise there should be a separate counter for encountered alphanumeric characters
 and removal should be based on that
  */
+ //SIP Solution is correct
   private def removeEveryNthChar(chars: List[Char], n: Int): String = {
     def walk(chars: List[Char], index: Int): String = chars match {
       case Nil => ""

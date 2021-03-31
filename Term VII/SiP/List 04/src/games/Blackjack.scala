@@ -82,9 +82,10 @@ object Blackjack {
   }
 
   def cardValue(card: Card, currentValue: Int): Int = {
+    val faceCardValue = 10
     card.rank match {
       case numerical: Numerical => numerical.pips
-      case _: Face => 10
+      case _: Face => faceCardValue
       case _: Ace.type => bestAceValue(currentValue)
     }
   }

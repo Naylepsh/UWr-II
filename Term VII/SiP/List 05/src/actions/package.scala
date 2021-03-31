@@ -25,22 +25,14 @@ package object actions {
 
   // plugin applying plugins with order: actionA => actionB
   val actionG: Pluginable = new Pluginable {
-    override def plugin: String => Option[String] = (text: String) => actionA.plugin(text) match {
-      case Some(str) =>
-        actionB.plugin(str)
-      case None => None
-    }
+    override def plugin: String => Option[String] = (text: String) => actionA.plugin(text).map(actionB.plugin)
   }
 
   private def repeatPlugin(plugin: Pluginable): (String, Int) => Option[String] = {
     @tailrec
     def repeat(text: String, n: Int): Option[String] = n match {
       case 0 => Option(text)
-      case _ =>
-        plugin.plugin(text) match {
-          case Some(transformed) => repeat(transformed,  n - 1)
-          case None => None
-        }
+      case _ => plugin.plugin(text).map(transformed => repeat(transformed, n - 1))
     }
 
     repeat

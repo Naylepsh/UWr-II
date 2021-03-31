@@ -8,8 +8,8 @@ import com.restfb.types.User
 
 class LikeComparator(accessToken: String) {
   private def logResult(logFile: String, user1: User, user2: User)= Future {
-    val current_time = Calendar.getInstance().getTime
-    val line = s"$current_time $user1 $user2"
+    val currentTime = Calendar.getInstance().getTime
+    val line = s"$currentTime $user1 $user2"
     writeToFile(logFile, List(line))
   }
 

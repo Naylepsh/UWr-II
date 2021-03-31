@@ -5,6 +5,9 @@ class Triangle(val points: Array[Point]) extends Shape(points) {
   require(points.length == 3)
   override val description = "Triangle"
 
+  //SIP Validation needed to check if provided points form a triangle.
+  //For example this is invalid definition - new Traingle(p1, p1, p2)
+
   override def area: Double = {
     val a = points(0)
     val b = points(1)

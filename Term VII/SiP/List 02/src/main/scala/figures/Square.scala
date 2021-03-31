@@ -5,7 +5,11 @@ import main.scala.figures.Rectangle.getVertices
 // since Square is immutable,
 // the whole "square cannot inherit from rectangle due to setWith/setHeight" problem goes away
 // (I think?)
+//SIP yes
 class Square(points: Array[Point]) extends Rectangle(points) {
+  //SIP Validation needed to check if provided points form a Square.
+  //For example this is invalid definition - new Square(Array(p1,p1, p2,p2))
+
   override val description: String = "Square"
 }
 

@@ -15,11 +15,7 @@ def scalarUgly(xs: List[Int], ys: List[Int]) = {
 }
 
 def scalar(xs: List[Int], ys: List[Int]): Int = {
-  if (xs.length == 0 || ys.length == 0) {
-    0
-  } else {
-    xs.head * ys.head + scalar(xs.tail, ys.tail)
-  }
+  ((for ((x,y) <- (xs zip ys)) yield x*y)).sum
 }
 
 // iterative scalar even tho List makes it inefficient
@@ -88,6 +84,7 @@ def swapUgly(xs: ListBuffer[Int], i: Int, j: Int) = {
 }
 
 // since list.filter(cond) if technically equivalent to for (x <- xs; if cond), I'm gonna use that
+//SIP good point
 def sort(xs: List[Int]): List[Int] = {
   if (xs.length <= 1) return xs
 
@@ -107,13 +104,13 @@ def isPrimeUgly(n: Int): Boolean = {
   var abs = n.abs
   if (abs == 1) return false
 
-  var divisor = 2;
+  var divisor = 2
   while (divisor * divisor <= abs) {
     if (n % divisor == 0) return false
     divisor += 1
   }
 
-  return true
+  true
 }
 
 def isPrime(n: Int): Boolean = {
@@ -126,7 +123,7 @@ def isPrime(n: Int): Boolean = {
     return false 
   }
 
-  return true
+  true
 }
 
 

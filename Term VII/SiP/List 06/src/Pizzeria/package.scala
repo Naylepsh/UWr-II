@@ -39,6 +39,7 @@ package object Pizzeria {
     extraTopping: Option[Topping] = None) extends HasPrice {
 
     override def toString: String = {
+      //SIP Nice use of string interpolation
       val core = s"""type: $pizzaType
          |size: $size
          |crust: $crust
@@ -49,15 +50,16 @@ package object Pizzeria {
       "----Pizza----\n" + core + meat + topping + "-------------\n"
     }
 
-    def extraMeatPrice(): Double = extraMeat.map(_.price).sum
+    def extraMeatPrice: Double = extraMeat.map(_.price).sum
 
-    def extraToppingPrice(): Double = extraTopping.map(_.price).sum
+    def extraToppingPrice: Double = extraTopping.map(_.price).sum
 
     override val price: Double = {
       val coreCost = pizzaType.price
       val meatCost = extraMeatPrice()
       val toppingCost = extraToppingPrice()
       val sizeCostMultiplier = size match {
+        //SIP Cleaner to abstract it in class, like - sealed abstract class Size { def costMultiplier: ... }
         case Small => 0.9
         case Regular => 1
         case Large => 1.5

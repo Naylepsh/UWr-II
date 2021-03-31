@@ -6,7 +6,11 @@ package object Money {
   case object EUR extends Currency
   case object PLN extends Currency
 
+  //SIP better to define this hardcoded-val outside of Money.scala (in Test.scala)
+  //Thanks to this when Rates will change, user could update these values without modifying your code
   val conversion: Map[(Currency, Currency), BigDecimal] = Map(
+    //SIP These (X,X) -> are redundant, better to have some logic to cover this
+    //Otherwise, in the future, for each new currency we would need to add an extra line here
     (USD, USD) -> 1,
     (USD, EUR) -> 0.84,
     (USD, PLN) -> 3.76,
@@ -15,13 +19,19 @@ package object Money {
     (EUR, PLN) -> 4.46,
     (PLN, USD) -> 0.27,
     (PLN, EUR) -> 0.22,
-    (PLN, PLN) -> 1,
+    (PLN, PLN) -> 1, //SIP Redundant comma - ,
   )
 
   sealed abstract class CurrencySymbol(val currency: Currency)
   case object $ extends CurrencySymbol(USD)
-//  having to copy-paste euro symbol every time one wanted to make an operation on euro feels kinda scuffed,
+//  having to copy-paste euro symbol every time one wanted to make an operation on euro feels kinda weird,
 //  hence why I'll use E instead
+  //SIP Could be also like: case object `€` extends CurrencySymbol(EUR)
+  //also could be:
+  // val $ = USD
+  // val `€` = EUR
+  // val zł = PLN
+  //Thanks to this CurrencyConverter.convert(from: CurrencySymbol, to: CurrencySymbol) will be redundant
   case object E extends CurrencySymbol(EUR)
   case object zl extends CurrencySymbol(PLN)
 
@@ -50,6 +60,7 @@ package object Money {
 
     def ==(other: Money): Boolean = amount == (other as currency).amount
 
+    //SIP nice
     def !=(other: Money): Boolean = ! ==(other)
 
     def >=(other: Money): Boolean = ! <(other)

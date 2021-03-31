@@ -7,10 +7,13 @@ class Deck(val cards: List[Card]) {
   // creates new deck without first card
   def pull(): Deck = {
     cards match {
+      //SIP Nice that you created new Exception class for this
       case Nil => throw new PullFromEmptyDeckError()
       case _ => new Deck(cards.tail)
     }
   }
+
+  //SIP for all public methods here explicite type is needed 
 
   // creates new deck with given card pushed on top
   def push(c: Card) = new Deck(c :: cards)

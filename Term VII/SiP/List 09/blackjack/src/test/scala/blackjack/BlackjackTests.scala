@@ -83,6 +83,7 @@ class BlackjackTests extends AnyFunSpec {
   }
 }
 
+//SIP Good idea with this mock. Could be changed to object
 case class BlackjackTestPrinter() extends BlackjackPrinter {
   var prettyPrintHandCalled = false
   var prettyPrintCardsCalled = false
