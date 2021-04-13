@@ -16,12 +16,6 @@ FROM Czytelnik c WHERE c.Czytelnik_ID IN
 
 SELECT c.PESEL, c.Nazwisko
 FROM Czytelnik c WHERE c.Czytelnik_ID IN
-	(SELECT w.Czytelnik_ID FROM Wypozyczenie w, Egzemplarz e, Ksiazka k 
-	WHERE e.Egzemplarz_ID = w.Egzemplarz_ID AND e.Ksiazka_ID = k.Ksiazka_ID)
--- 5ms
-
-SELECT c.PESEL, c.Nazwisko
-FROM Czytelnik c WHERE c.Czytelnik_ID IN
 	(SELECT w.Czytelnik_ID FROM Wypozyczenie w
 	WHERE w.Egzemplarz_ID IN 
 		(SELECT Egzemplarz_ID FROM Egzemplarz e
