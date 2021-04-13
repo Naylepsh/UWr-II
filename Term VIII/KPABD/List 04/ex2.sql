@@ -48,10 +48,10 @@ create table Appointment (
 )
 
 -- 3NF:
---  Assuming that prices can be somewhat arbitrary, then the current schemas are in 3NF
--- However, if Causes are not arbitrary (for example, 
--- there won't be a case where one denture fitting is called "Denture fitting in ..." 
--- and the other "Needs to fit denture ..."), then:
+-- Assuming that prices can be somewhat arbitrary, then the current schemas are in 3NF
+-- However, if Causes are standardized (for example, for appointments for removing wisdom tooth will all be exactly
+-- 'Denture: Wisdom tooth removal' and there will never be 'Denture: Removing a wisdom tooth' or anything like that)
+-- and prices depend on causes, then:
 create table Patient (
 	ID int identity primary key,
 	Name varchar(255),
@@ -77,4 +77,5 @@ create table AppointmentPrice (
 	PriceCurrency varchar(31),
 	constraint PK_AppointmentPrice primary key (Category, Cause)
 )
+
 -- If locations depends on Physician, then ...
