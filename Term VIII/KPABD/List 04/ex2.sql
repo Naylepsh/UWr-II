@@ -35,6 +35,11 @@ create table Patient (
 	City varchar(255)
 )
 
+create table Physician (
+	ID int identity primary key,
+	Physician varchar(255),
+)
+
 create table Appointment (
 	ID int identity primary key,
 	PatientID int,
@@ -42,7 +47,7 @@ create table Appointment (
 	Location varchar(255),
 	Price decimal(10,2),
 	PriceCurrency varchar(31),
-	Physician varchar(255),
+	PhysicianID int,
 	Category varchar(255),
 	Cause varchar(1023)
 )
@@ -58,6 +63,11 @@ create table Patient (
 	Address varchar(255),
 	PostalCode varchar(255),
 	City varchar(255)
+)
+
+create table Physician (
+	ID int identity primary key,
+	Name varchar(255),
 )
 
 create table Appointment (
