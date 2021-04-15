@@ -1,0 +1,39 @@
+cd "D:/Program Files/mongodb-windows-x86_64-4.4.5/bin"
+
+start-process mongod -argument '--dbpath D:\Databases\MongoDB\db1 --port 10000 --replSet "demo"'
+start-process mongod -argument '--dbpath D:\Databases\MongoDB\db2 --port 20000 --replSet "demo"'
+start-process mongod -argument '--dbpath D:\Databases\MongoDB\db3 --port 30000 --replSet "demo"'
+
+.\mongo.exe --port 10000
+
+const rsConfig = {
+  _id: "demo",
+  members: [
+    { _id: 0, host: "localhost:10000", priority: 10 },
+    { _id: 1, host: "localhost:20000" },
+    { _id: 2, host: "localhost:30000", arbiterOnly: true },
+  ],
+};
+
+rs.initiate(rsConfig)
+
+db.books.find()
+db.books.save({ _id: 1, title: "Mistrz i Małgorzata"})
+
+// na nowym shellu
+.\mongo.exe --port 20000
+
+db.books.find()
+
+db.setSecondaryOk()
+
+db.books.find()
+db.books.save({ _id: 2, title: "Kolekcjoner"})
+
+// Kill PRIMARY
+
+// in previous SECONDARY (now the new PRIMARY)
+db.books.save({ _id: 2, title: "Kolekcjoner"})
+db.books.find()
+
+//  Ressurect PRIMARY by start-process mongod ... on db1 port 10k
