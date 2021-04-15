@@ -75,6 +75,14 @@ const reader2 = db.readers.insertOne({
   ],
 });
 
+const reader3 = db.readers.insertOne({
+  PESEL: "12345678902",
+  last_name: "Soares",
+  city: "Sao Paulo",
+  birth_date: randomDate(),
+  last_borrowing: new Date(),
+});
+
 // inserts that should fail validations
 // multiple failures
 db.books.insertOne({
