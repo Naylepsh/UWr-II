@@ -32,25 +32,20 @@ db.createCollection("books", {
           bsonType: "bool",
           description: "has to be a boolean",
         },
-      },
-    },
-  },
-});
-
-db.createCollection("books_copies", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      required: ["signature", "book"],
-      properties: {
-        signature: {
-          bsonType: "string",
-          maxLength: 8,
-          uniqueItems: true,
-          description: "has to be an unique string of max length of 8",
-        },
-        book: {
-          bsonType: "objectId",
+        copies: {
+          bsonType: ["array"],
+          minItems: 1,
+          items: {
+            required: ["signature"],
+            properties: {
+              signature: {
+                bsonType: "string",
+                maxLength: 8,
+                uniqueItems: true,
+                description: "has to be an unique string of max length of 8",
+              },
+            },
+          },
         },
       },
     },
@@ -85,32 +80,27 @@ db.createCollection("readers", {
           bsonType: "date",
           description: "has to be a date",
         },
-      },
-    },
-  },
-});
-
-db.createCollection("borrowings", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      required: ["reader", "book_copy", "date", "days"],
-      properties: {
-        reader: {
-          bsonType: "objectId",
-          description: "has to be an id pointing to reader document",
-        },
-        book_copy: {
-          bsonType: "objectId",
-          description: "has to be an id pointing to book copy document",
-        },
-        date: {
-          bsonType: "date",
-          description: "has to be a date",
-        },
-        days: {
-          bsonType: "double",
-          description: "has to be an integer",
+        borrowings: {
+          bsonType: ["array"],
+          items: {
+            bsonType: "object",
+            required: ["signature", "date", "days"],
+            properties: {
+              signature: {
+                bsonType: "string",
+                maxLength: 8,
+                description: "has to be an unique string of max length of 8",
+              },
+              date: {
+                bsonType: "date",
+                description: "has to be a date",
+              },
+              days: {
+                bsonType: "double",
+                description: "has to be an integer",
+              },
+            },
+          },
         },
       },
     },

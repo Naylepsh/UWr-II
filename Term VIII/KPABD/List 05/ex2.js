@@ -12,6 +12,11 @@ const book1 = db.books.insertOne({
   author: "Helen Feddema",
   year_published: 2006,
   price: 69,
+  copies: [
+    {
+      signature: "S0001",
+    },
+  ],
 });
 
 const book2 = db.books.insertOne({
@@ -20,21 +25,14 @@ const book2 = db.books.insertOne({
   author: "Robert Vieira",
   year_published: 2007,
   price: 97,
-});
-
-const book_copy1 = db.books_copies.insertOne({
-  signature: "S0001",
-  book: book1.insertedId,
-});
-
-const book_copy2 = db.books_copies.insertOne({
-  signature: "S0002",
-  book: book2.insertedId,
-});
-
-const book_copy3 = db.books_copies.insertOne({
-  signature: "S0003",
-  book: book2.insertedId,
+  copies: [
+    {
+      signature: "S0002",
+    },
+    {
+      signature: "S0003",
+    },
+  ],
 });
 
 const reader1 = db.readers.insertOne({
@@ -43,6 +41,18 @@ const reader1 = db.readers.insertOne({
   city: "New York",
   birth_date: randomDate(),
   last_borrowing: new Date(),
+  borrowings: [
+    {
+      signature: "S0001",
+      date: randomDate(),
+      days: 42,
+    },
+    {
+      signature: "S0002",
+      date: randomDate(),
+      days: 24,
+    },
+  ],
 });
 
 const reader2 = db.readers.insertOne({
@@ -51,34 +61,18 @@ const reader2 = db.readers.insertOne({
   city: "Nanporo",
   birth_date: randomDate(),
   last_borrowing: new Date(),
-});
-
-const borrowing1 = db.borrowings.insertOne({
-  reader: reader1.insertedId,
-  book_copy: book_copy2.insertedId,
-  date: randomDate(),
-  days: 42,
-});
-
-const borrowing2 = db.borrowings.insertOne({
-  reader: reader1.insertedId,
-  book_copy: book_copy3.insertedId,
-  date: randomDate(),
-  days: 24,
-});
-
-const borrowing3 = db.borrowings.insertOne({
-  reader: reader2.insertedId,
-  book_copy: book_copy1.insertedId,
-  date: randomDate(),
-  days: 11,
-});
-
-const borrowing4 = db.borrowings.insertOne({
-  reader: reader2.insertedId,
-  book_copy: book_copy2.insertedId,
-  date: randomDate(),
-  days: 111,
+  borrowings: [
+    {
+      signature: "S0003",
+      date: randomDate(),
+      days: 11,
+    },
+    {
+      signature: "S0002",
+      date: randomDate(),
+      days: 111,
+    },
+  ],
 });
 
 // inserts that should fail validations
@@ -107,13 +101,6 @@ db.readers.insertOne({
   city: "Nanporo",
   birth_date: randomDate(),
   last_borrowing: new Date(),
-});
-
-// no reader
-db.borrowings.insertOne({
-  book_copy: book_copy1.insertedId,
-  date: randomDate(),
-  days: 11,
 });
 
 // cleanup
