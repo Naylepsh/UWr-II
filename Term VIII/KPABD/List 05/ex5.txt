@@ -20,7 +20,7 @@ rs.initiate(rsConfig)
 db.books.find()
 db.books.save({ _id: 1, title: "Mistrz i Małgorzata"})
 
-// na nowym shellu
+// in new shell
 .\mongo.exe --port 20000
 
 db.books.find()
